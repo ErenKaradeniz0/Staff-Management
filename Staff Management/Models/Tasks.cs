@@ -13,7 +13,7 @@ namespace Staff_Management.Models
         public String Title { get; set; }
         public String Contents { get; set; }
         public String Comment { get; set; }
-        public String Status { get; set; }
+        public byte Status { get; set; }
         public int StaffId { get; set; }
     }
 }

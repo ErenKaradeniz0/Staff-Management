@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-5">
+    <h1 id="taskTitle">Sorun Bildir</h1>
+    <form>
+        <div class="form-group">
+            <label for="issueContent">Sorun</label>
+            <textarea class="form-control" id="issueContent" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+</div>
+
+<script>
+    // URL parametrelerini al
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get('title');
+
+    // Sayfadaki başlığı güncelle
+    document.getElementById('taskTitle').innerText = title + " için Sorun Bildir";
+</script>

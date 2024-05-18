@@ -12,6 +12,7 @@ namespace Staff_Management.Models
         public int DoId { get; set; }
         public int UserId { get; set; }
         public int GroupAdminId { get; set; }
+        public int DaysCount { get; set; }
 
-    }
+    } 
 }

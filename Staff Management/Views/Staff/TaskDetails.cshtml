@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Tasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-5">
+    <h1 id="taskTitle">Görev Detayı</h1>
+    <form>
+        <div class="form-group">
+            <label for="taskContent">Content</label>
+            <textarea class="form-control" id="taskContent" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="taskComment">Comment</label>
+            <textarea class="form-control" id="taskComment" rows="3"></textarea>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    // URL parametrelerini al
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get('title');
+    const content = params.get('content');
+
+    // Sayfadaki elementleri güncelle
+    document.getElementById('taskTitle').innerText = title;
+    document.getElementById('taskContent').innerText = content;
+</script>

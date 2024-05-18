@@ -15,8 +15,8 @@ namespace Staff_Management.Models
         public String Title { get; set; }
         public String Email { get; set; }
         public String Password { get; set; }
-        public int Type { get; set; }
-        public float Score { get; set; }
-        public float Salary { get; set; }
+        public byte Type { get; set; }
+        public double Score { get; set; }
+        public double Salary { get; set; }
     }
 }

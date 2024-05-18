@@ -17,20 +17,7 @@ namespace Staff_Management.Controllers
         }
         public ActionResult Index()
         {
-            try
-            {
-                var Users = _context.Users.ToList();
-                ViewBag.Message = "Database connection successful!";
-            }
-            catch (Exception ex)
-            {
-                while (ex != null)
-                {
-                    ViewBag.Message = "Database Connection unsuccessful! " + ex.Message;
-                    Console.WriteLine(ex.Message);
-                    ex = ex.InnerException;
-                }
-            }
+            
             return View();
         }
     }

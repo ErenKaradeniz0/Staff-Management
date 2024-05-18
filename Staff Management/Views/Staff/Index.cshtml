@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .header .btn {
+            margin-left: auto;
+        }
+
+    .table {
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Task List</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary text-white" href="@Url.Action("Profile", "Staff")">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger text-white ml-2" href="#"><i class="fas fa-sign-out-alt"></i> Quit</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Buttons</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pending</td>
+                    <td>Görev 1</td>
+                    <td>
+                        <a href="@Url.Action("TaskDetails", "Staff")" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-eye"></i> Görevi Görüntüle
+                        </a>
+                        <button class="btn btn-success btn-sm" onclick="gorevTamamla(this)">
+                            <i class="fa-solid fa-check"></i> Görev Tamamlandı
+                        </button>
+                        <a href="@Url.Action("ReportIssue", "Staff")" class="btn btn-warning btn-sm">
+                            <i class="fa-solid fa-exclamation"></i> Sorun Bildir
+                        </a>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>In Progress</td>
+                    <td>Görev 2</td>
+                    <td>
+                        <a href="@Url.Action("TaskDetails", "Staff")" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-eye"></i> Görevi Görüntüle
+                        </a>
+                        <button class="btn btn-success btn-sm" onclick="gorevTamamla(this)">
+                            <i class="fa-solid fa-check"></i> Görev Tamamlandı
+                        </button>
+                        <a href="@Url.Action("ReportIssue", "Staff")" class="btn btn-warning btn-sm">
+                            <i class="fa-solid fa-exclamation"></i> Sorun Bildir
+                        </a>
+                    </td>
+                </tr>
+                <!-- Daha fazla görev buraya eklenebilir -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS ve Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+    function gorevGoruntule(title, content) {
+        const params = new URLSearchParams();
+        params.append('title', title);
+        params.append('content', content);
+        window.location.href = 'gorev.html?' + params.toString();
+    }
+
+    function gorevTamamla(button) {
+        var row = button.closest('tr');
+        row.cells[0].innerText = 'Completed';
+        alert('Görev tamamlandı.');
+    }
+
+    function sorunBildir(title) {
+        const params = new URLSearchParams();
+        params.append('title', title);
+        window.location.href = 'sorun.html?' + params.toString();
+    }
+    </script>
+
+</body>

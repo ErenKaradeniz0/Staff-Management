@@ -13,5 +13,9 @@ namespace Staff_Management.Controllers
         {
             return View();
         }
+
+        public ActionResult Tasks() {
+            return View();
+        }
     }
 }

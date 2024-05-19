@@ -199,6 +199,7 @@
     <Content Include="Views\Staff\TaskDetails.cshtml" />
     <Content Include="Views\Staff\Profile.cshtml" />
     <Content Include="Views\Staff\ReportIssue.cshtml" />
+    <Content Include="Views\GroupAdmin\Tasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

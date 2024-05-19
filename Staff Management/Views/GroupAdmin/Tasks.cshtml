@@ -39,48 +39,56 @@
             </select>
         </div>
         <button type="button" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+        <button type="button" class="btn btn-primary" onclick="MainPage()">Group Admin Main Page</button>
     </form>
 </div>
+
 
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-        // Function to load task details from URL parameters
-        function loadTaskDetails() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            const title = params.get('title');
-            const content = params.get('content');
-            const comment = params.get('comment');
-            const assignedWorker = params.get('assignedWorker');
+    // Function to load task details from URL parameters
+    function loadTaskDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const title = params.get('title');
+        const content = params.get('content');
+        const comment = params.get('comment');
+        const assignedWorker = params.get('assignedWorker');
 
-            document.getElementById('taskTitle').innerText = title;
-            document.getElementById('taskContent').value = content;
-            document.getElementById('taskComment').value = comment;
-            document.getElementById('staffSelect').value = assignedWorker || 'Staff 1'; // Default to 'Staff 1'
+        document.getElementById('taskTitle').innerText = title;
+        document.getElementById('taskContent').value = content;
+        document.getElementById('taskComment').value = comment;
+        document.getElementById('staffSelect').value = assignedWorker || 'Staff 1'; // Default to 'Staff 1'
 
-            document.getElementById('taskForm').dataset.id = id; // Store task ID in form's dataset
-        }
+        document.getElementById('taskForm').dataset.id = id; // Store task ID in form's dataset
+    }
 
-        // Function to save changes and redirect back to the task list page
-        function saveChanges() {
-            const id = document.getElementById('taskForm').dataset.id;
-            const title = document.getElementById('taskTitle').innerText;
-            const content = document.getElementById('taskContent').value;
-            const comment = document.getElementById('taskComment').value;
-            const assignedWorker = document.getElementById('staffSelect').value;
+    // Function to save changes and redirect back to the task list page
+    function saveChanges() {
+        const id = document.getElementById('taskForm').dataset.id;
+        const title = document.getElementById('taskTitle').innerText;
+        const content = document.getElementById('taskContent').value;
+        const comment = document.getElementById('taskComment').value;
+        const assignedWorker = document.getElementById('staffSelect').value;
 
-            // Store the updated task in localStorage
-            const tasks = JSON.parse(localStorage.getItem('tasks')) || {};
-            tasks[id] = { title, content, comment, assignedWorker };
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+        // Store the updated task in localStorage
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || {};
+        tasks[id] = { title, content, comment, assignedWorker };
+        localStorage.setItem('tasks', JSON.stringify(tasks));
 
-            // Redirect back to the task list page
-            window.location.href = 'group_admin.html';
-        }
+        // Redirect back to the task list page
+        window.location.href = 'Index';
+    }
 
-        // Load task details on page load
-        window.onload = loadTaskDetails;
+    function MainPage() {
+
+        // Redirect back to the task list page
+        window.location.href = 'Index';
+    }
+
+    // Load task details on page load
+    window.onload = loadTaskDetails;
 </script>

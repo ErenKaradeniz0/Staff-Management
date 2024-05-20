@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model IEnumerable<Staff_Management.Models.GroupAdminViewModel>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Group Admin</a>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -29,21 +31,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Completed</td>
-                <td>Task Title 1</td>
-                <td>Worker 1</td>
-                <td>
-                    <div class="btn-group-action">
-                        <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks","GroupAdmin")">
-                            <i class="fa-solid fa-eye"></i> View Task
-                        </a>
-                        <button class="btn btn-success btn-sm" onclick="">
-                            <i class="fa-solid fa-check"></i> Completed
-                        </button>
-                    </div>
-                </td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TaskStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserName) @Html.DisplayFor(modelItem => item.UserSurname)</td>
+                    <td>
+                        <div class="btn-group-action">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks","GroupAdmin")">
+                                <i class="fa-solid fa-eye"></i> View Task
+                            </a>
+                            <button class="btn btn-success btn-sm" onclick="">
+                                <i class="fa-solid fa-check"></i> Completed
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+
             <tr>
                 <td>Completed</td>
                 <td>Task Title 2</td>

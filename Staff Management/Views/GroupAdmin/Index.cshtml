@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<Staff_Management.Models.>
+@model IEnumerable<Staff_Management.Models.GroupAdminViewModel>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Group Admin</a>
@@ -34,13 +34,9 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td> @Html.DisplayFor(modelItem => item.Status)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffName)
-                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.TaskStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserName) @Html.DisplayFor(modelItem => item.UserSurname)</td>
                     <td>
                         <div class="btn-group-action">
                             <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks","GroupAdmin")">

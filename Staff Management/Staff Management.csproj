@@ -138,6 +138,7 @@
     <Compile Include="Models\Assignments.cs" />
     <Compile Include="Models\DaysOff.cs" />
     <Compile Include="Models\DbContextViewModel.cs" />
+    <Compile Include="Models\GroupAdminViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Tasks.cs" />
     <Compile Include="Models\Users.cs" />

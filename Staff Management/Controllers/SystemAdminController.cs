@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Staff_Management.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,10 +10,22 @@ namespace Staff_Management.Controllers
 {
     public class SystemAdminController : Controller
     {
+        public List<Users> ListUser()
+        {
+            using (var ctx = new DbContextViewModel())
+            {
+                return ctx.Users.ToList();
+            }
+
+        }
+
         // GET: SystemAdmin
         public ActionResult Index()
         {
-            return View();
+            
+            return View(ListUser());
+
+            //return View();
         }
     }
 }

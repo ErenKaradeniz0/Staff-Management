@@ -3,6 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@model IEnumerable<Staff_Management.Models.Users>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,8 +34,8 @@
 </head>
 <body>
     <div class="nav-buttons">
-        <a href="profile.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></a> 
-        <a href="sorun.html" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></a> 
+        <a href="profile.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></a>
+        <a href="sorun.html" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">System Admin</a>
@@ -49,7 +52,7 @@
     </nav>
     <div class="container mt-5">
         <div class="row mb-4">
-            
+
             <div class="col-md-4">
                 <a href="assign_staff.html" class="btn btn-info btn-block"><i class="fas fa-users"></i> Assign Staff</a>
             </div>
@@ -71,15 +74,20 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Full-Time</td>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>85</td>
-                            <td><input type="number" class="form-control" value="50000"></td>
-                            <td><button class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Save</button></td>
-                        </tr>
+                    <tbody
+                        @foreach (var model in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelitem => model.Type)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Name)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Surname)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Score)</td>
+                                <td>@Html.TextBoxFor(modelitem => model.Salary, new { @class = "form-control" })</td>
+                                <td><button class="btn btn-primary btn-sm" id="saveButton"><i class="fas fa-save"></i> Save</button></td>
+                            </tr>
+
+                        }
+                        
                         <tr>
                             <td>Part-Time</td>
                             <td>Jane</td>

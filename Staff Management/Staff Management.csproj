@@ -144,6 +144,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\all.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -162,13 +163,21 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\css\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\webfonts\fa-brands-400.woff2" />
+    <Content Include="Content\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\webfonts\fa-regular-400.woff2" />
+    <Content Include="Content\webfonts\fa-solid-900.ttf" />
+    <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\webfonts\fa-v4compatibility.ttf" />
+    <Content Include="Content\webfonts\fa-v4compatibility.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -193,12 +202,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Staff\Index.cshtml" />
     <Content Include="Views\GroupAdmin\Index.cshtml" />
-    <Content Include="Views\SystemAdmin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Staff\TaskDetails.cshtml" />
     <Content Include="Views\Staff\Profile.cshtml" />
     <Content Include="Views\Staff\ReportIssue.cshtml" />
     <Content Include="Views\GroupAdmin\Tasks.cshtml" />
+    <Content Include="Views\SystemAdmin\Index.cshtml" />
+    <Content Include="Views\SystemAdmin\AdjustSalaries.cshtml" />
+    <Content Include="Views\SystemAdmin\AssignStaff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,9 +12,9 @@ namespace Staff_Management.Controllers
     {
         public List<Users> ListUser()
         {
-            using (var ctx = new DbContextViewModel())
+            using (var _content = new DbContextViewModel())
             {
-                return ctx.Users.ToList();
+                return _content.Users.ToList();
             }
 
         }
@@ -26,6 +26,14 @@ namespace Staff_Management.Controllers
             return View(ListUser());
 
             //return View();
+        }
+        public ActionResult AdjustSalaries()
+        {
+            return View();
+        }
+        public ActionResult AssignStaff()
+        {
+            return View();
         }
     }
 }

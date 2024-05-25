@@ -39,7 +39,7 @@
                     <td>@Html.DisplayFor(modelItem => item.UserName) @Html.DisplayFor(modelItem => item.UserSurname)</td>
                     <td>
                         <div class="btn-group-action">
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks", "GroupAdmin")">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks", new { viewTaskId = item.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
                             <button class="btn btn-success btn-sm" onclick="">

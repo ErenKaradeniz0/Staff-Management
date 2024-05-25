@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Staff_Management.Models; // Adjust namespace as necessary
 
@@ -33,6 +34,8 @@ public class AccountController : Controller
             var user = _context.Users.SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
+                Session["UserId"] = user.UserId;
+                
                 // Assuming user type is stored as an integer
                 switch (user.Type)
                 {

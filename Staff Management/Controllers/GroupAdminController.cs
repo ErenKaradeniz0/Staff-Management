@@ -21,13 +21,13 @@ namespace Staff_Management.Controllers
         // GET: 
         public ActionResult Index()
         {
-            int UserID = Convert.ToInt32(Session["UserID"]);
+            int UserId = Convert.ToInt32(Session["UserId"]);
 
             // Query to fetch the data with the filter condition
             var query = from assignment in _context.Assignments
                         join user in _context.Users on assignment.StaffId equals user.UserId
                         join task in _context.Tasks on user.UserId equals task.StaffId
-                        where assignment.GroupAdminId == UserID // Filter condition
+                        where assignment.GroupAdminId == UserId // Filter condition
                         select new GroupAdminViewModel
                         {
                             TaskId = task.TaskId,

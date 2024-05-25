@@ -24,7 +24,8 @@ namespace Staff_Management
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/css/all.min.css",
+                      "~/Content/css/site.css"));
         }
     }
 }

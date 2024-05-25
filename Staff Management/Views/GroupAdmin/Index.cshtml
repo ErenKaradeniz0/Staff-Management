@@ -1,8 +1,75 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>GroupAdmin</h2>
+@model IEnumerable<Staff_Management.Models.GroupAdminViewModel>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Group Admin</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger text-white ml-2" href="#"><i class="fas fa-sign-out-alt"></i> Quit</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Finished Tasks</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Title</th>
+                <th>Assigned Worker</th>
+                <th>Buttons</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TaskStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserName) @Html.DisplayFor(modelItem => item.UserSurname)</td>
+                    <td>
+                        <div class="btn-group-action">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks","GroupAdmin")">
+                                <i class="fa-solid fa-eye"></i> View Task
+                            </a>
+                            <button class="btn btn-success btn-sm" onclick="">
+                                <i class="fa-solid fa-check"></i> Completed
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td>Completed</td>
+                <td>Task Title 2</td>
+                <td>Worker 2</td>
+                <td>
+                    <div class="btn-group-action">
+                        <a class="btn btn-primary btn-sm" href="@Url.Action("Task", new { id = 2, title = "Task Title 2", content = "Task Content 2", comment = "Task Comment 2", assignedWorker = "Worker 2" })">
+                            <i class="fa-solid fa-eye"></i> View Task
+                        </a>
+                        <button class="btn btn-success btn-sm" onclick="">
+                            <i class="fa-solid fa-check"></i> Complete
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <!-- Add more task rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

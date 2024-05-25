@@ -59,10 +59,22 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function gorevTamamla(button) {
-        var row = button.closest('tr');
-        row.cells[0].innerText = 'Completed';
-        alert('Görev tamamlandı.');
+    function gorevTamamla(button, taskId) {
+        // Send AJAX request to update task status
+        $.ajax({
+            url: '@Url.Action("UpdateTaskStatus", "Staff")',
+            type: 'POST',
+            data: { taskId: taskId },
+            success: function (data) {
+                // Update the status in the table row
+                var row = $(button).closest('tr');
+                row.find('td:first').text('Completed');
+                alert('Görev tamamlandı.');
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Bir hata oluştu.');
+            }
+        });
     }
 </script>
-

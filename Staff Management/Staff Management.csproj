@@ -207,9 +207,10 @@
     <Content Include="Views\Staff\Profile.cshtml" />
     <Content Include="Views\Staff\ReportIssue.cshtml" />
     <Content Include="Views\GroupAdmin\Tasks.cshtml" />
-    <Content Include="Views\SystemAdmin\Index.cshtml" />
     <Content Include="Views\SystemAdmin\AdjustSalaries.cshtml" />
     <Content Include="Views\SystemAdmin\AssignStaff.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\SystemAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

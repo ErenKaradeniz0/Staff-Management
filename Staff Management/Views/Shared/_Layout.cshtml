@@ -8,9 +8,22 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand btn-lg" href="#">Group Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto"></ul>
+                <a class="btn btn-primary btn-lg m-lg-2" href="@Url.Action("Profile", "Staff")">Profile</a>
+                <a class="btn btn-danger btn-lg" href="@Url.Action("Login", "Account")">Quit</a>
+            </div>
+        </div>
+    </nav>
     <div class="body-content">
         @RenderBody()
-        <footer style="bottom: 0; width: 100%;">
+        <footer style="position:absolute; bottom: 0; width: 100%;">
             <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
                 <!-- Copyright -->
                 <div class="text-white mb-3 mb-md-0">
@@ -23,5 +36,29 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @{
+        string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+        string navText = "Default Text";
+
+        switch (controllerName)
+        {
+            case "GroupAdmin":
+                navText = "Group Admin";
+                break;
+            case "Staff":
+                navText = "Staff";
+                break;
+            case "SystemAdmin":
+                navText = "System Admin";
+                break;
+            default:
+                navText = "Default Text";
+                break;
+        }
+    }
+    <script>
+        document.querySelector('.navbar-brand').innerText = '@navText';
+    </script>
 </body>
 </html>

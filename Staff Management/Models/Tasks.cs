@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 
 
@@ -18,8 +17,6 @@ namespace Staff_Management.Models
         public String Comment { get; set; }
         public byte Status { get; set; }
         public int StaffId { get; set; }
-        public String StaffName { get; }
-
     }
 
 }

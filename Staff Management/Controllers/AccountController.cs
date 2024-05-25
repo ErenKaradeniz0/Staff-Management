@@ -34,7 +34,7 @@ public class AccountController : Controller
             var user = _context.Users.SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
-                Session["UserID"] = user.UserId;
+                Session["UserId"] = user.UserId;
                 
                 // Assuming user type is stored as an integer
                 switch (user.Type)

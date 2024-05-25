@@ -4,5 +4,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AdjustSalaries</h2>
+@{
+    ViewBag.Title = "AdjustSalaries";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+@model IEnumerable<Staff_Management.Models.Users>
+    
+    <div class="container mt-5">
+        <div class="row mb-4">
+
+            <div class="col-md-4">
+                <a href="assign_staff.html" class="btn btn-info btn-block"><i class="fas fa-users"></i> Assign Staff</a>
+            </div>
+            <div class="col-md-4">
+                <a href="create_edit_user.html" class="btn btn-info btn-block"><i class="fas fa-user-edit"></i> Create & Edit User</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Adjust Salaries</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Score</th>
+                            <th>Salary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody> @foreach (var model in Model) { <tr>
+                                <td>@Html.DisplayFor(modelitem => model.Type)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Name)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Surname)</td>
+                                <td>@Html.DisplayFor(modelitem => model.Score)</td>
+                                <td>@Html.TextBoxFor(modelitem => model.Salary, new { @class = "form-control" })</td>
+                                <td><button class="btn btn-primary btn-sm" id="saveButton"><i class="fas fa-save"></i> Save</button></td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

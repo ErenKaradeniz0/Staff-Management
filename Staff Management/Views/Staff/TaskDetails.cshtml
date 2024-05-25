@@ -1,33 +1,32 @@
-﻿
+﻿@model Staff_Management.Models.Tasks
 @{
     ViewBag.Title = "Tasks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="container mt-5">
     <h1 id="taskTitle">Görev Detayı</h1>
     <h5 id="taskStatus">Status</h5>
-    <form>
+    <br />
+    @using (Html.BeginForm("TaskDetails", "Staff", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.TaskId)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.StaffId)
+        @Html.HiddenFor(model => model.Contents)
         <div class="form-group">
             <label for="taskContent">Content</label>
-            <textarea class="form-control" id="taskContent" rows="3"></textarea>
+            <textarea class="form-control" id="taskContent" rows="5" readonly style="resize: none;">@Model.Contents</textarea>
         </div>
-        <div class="form-group">
+
+        <div class="form-group mt-3">
             <label for="taskComment">Comment</label>
-            <textarea class="form-control" id="taskComment" rows="3"></textarea>
+            <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
         </div>
-    </form>
+        <div class="mt-4">
+        <button type="submit" class="btn btn-primary me-lg-2">Değişiklikleri Kaydet</button>
+        <a href="@Url.Action("Index", "Staff")" class="btn btn-secondary">Ana Sayfa</a>
+        </div>
+    }
 </div>
-
-
-<script>
-    //// URL parametrelerini al
-    //const params = new URLSearchParams(window.location.search);
-    //const title = params.get('title');
-    //const content = params.get('content');
-
-    //// Sayfadaki elementleri güncelle
-    //document.getElementById('taskTitle').innerText = title;
-    //document.getElementById('taskContent').innerText = content;
-</script>

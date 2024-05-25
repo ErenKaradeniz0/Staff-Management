@@ -59,23 +59,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function gorevGoruntule(title, content) {
-        const params = new URLSearchParams();
-        params.append('title', title);
-        params.append('content', content);
-        window.location.href = 'gorev.html?' + params.toString();
-    }
-
     function gorevTamamla(button) {
         var row = button.closest('tr');
         row.cells[0].innerText = 'Completed';
         alert('Görev tamamlandı.');
-    }
-
-    function sorunBildir(title) {
-        const params = new URLSearchParams();
-        params.append('title', title);
-        window.location.href = 'sorun.html?' + params.toString();
     }
 </script>
 

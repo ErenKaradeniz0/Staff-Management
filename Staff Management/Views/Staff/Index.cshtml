@@ -21,79 +21,61 @@
     }
 </style>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Task List</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary text-white" href="@Url.Action("Profile", "Staff")">
-                        <i class="fas fa-user"></i> Profile
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-danger text-white ml-2" href="#"><i class="fas fa-sign-out-alt"></i> Quit</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<div class="container">
 
-    <div class="container">
-
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Title</th>
+                <th>Buttons</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model)
+            {
                 <tr>
-                    <th>Status</th>
-                    <th>Title</th>
-                    <th>Buttons</th>
+                    <td>@task.Status</td>
+                    <td>@task.Title</td>
+                    <td>
+                        <a href="@Url.Action("TaskDetails", "Staff", new { id = task.TaskId })" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> Görevi Görüntüle
+                        </a>
+                        <button class="btn btn-success btn-sm" onclick="gorevTamamla(this, @task.TaskId)">
+                            <i class="fas fa-check"></i> Görev Tamamlandı
+                        </button>
+                        <a href="@Url.Action("ReportIssue", "Staff", new { id = task.TaskId })" class="btn btn-warning btn-sm">
+                            <i class="fas fa-exclamation"></i> Sorun Bildir
+                        </a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var task in Model)
-                {
-                    <tr>
-                        <td>@task.Status</td>
-                        <td>@task.Title</td>
-                        <td>
-                            <a href="@Url.Action("TaskDetails", "Staff", new { id = task.TaskId })" class="btn btn-primary btn-sm">
-                                <i class="fas fa-eye"></i> Görevi Görüntüle
-                            </a>
-                            <button class="btn btn-success btn-sm" onclick="gorevTamamla(this, @task.TaskId)">
-                                <i class="fas fa-check"></i> Görev Tamamlandı
-                            </button>
-                            <a href="@Url.Action("ReportIssue", "Staff", new { id = task.TaskId })" class="btn btn-warning btn-sm">
-                                <i class="fas fa-exclamation"></i> Sorun Bildir
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>
 
-    <!-- Bootstrap JS ve Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS ve Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script>
-        function gorevGoruntule(title, content) {
-            const params = new URLSearchParams();
-            params.append('title', title);
-            params.append('content', content);
-            window.location.href = 'gorev.html?' + params.toString();
-        }
+<script>
+    function gorevGoruntule(title, content) {
+        const params = new URLSearchParams();
+        params.append('title', title);
+        params.append('content', content);
+        window.location.href = 'gorev.html?' + params.toString();
+    }
 
-        function gorevTamamla(button) {
-            var row = button.closest('tr');
-            row.cells[0].innerText = 'Completed';
-            alert('Görev tamamlandı.');
-        }
+    function gorevTamamla(button) {
+        var row = button.closest('tr');
+        row.cells[0].innerText = 'Completed';
+        alert('Görev tamamlandı.');
+    }
 
-        function sorunBildir(title) {
-            const params = new URLSearchParams();
-            params.append('title', title);
-            window.location.href = 'sorun.html?' + params.toString();
-        }
-    </script>
+    function sorunBildir(title) {
+        const params = new URLSearchParams();
+        params.append('title', title);
+        window.location.href = 'sorun.html?' + params.toString();
+    }
+</script>
 
-</body>

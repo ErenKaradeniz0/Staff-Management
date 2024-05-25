@@ -7,6 +7,9 @@
 
 <div class="container mt-4">
     <h2>Finished Tasks</h2>
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTaskModal">
+        <i class="fas fa-plus"></i> Add Task
+    </button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -56,6 +59,62 @@
     </table>
 </div>
 
-<!-- Bootstrap JS and Popper.js -->
+<!-- Add Task Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTaskModalLabel">Add New Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addTaskForm">
+                    <div class="form-group">
+                        <label for="taskTitle">Task Title</label>
+                        <input type="text" class="form-control" id="taskTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskWorker">Assigned Worker</label>
+                        <input type="text" class="form-control" id="taskWorker" required>
+                    </div>
+                    <!-- Add more input fields as needed -->
+                    <button type="submit" class="btn btn-primary">Save Task</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#addTaskForm').on('submit', function(event){
+            event.preventDefault();
+            var taskTitle = $('#taskTitle').val();
+            var taskWorker = $('#taskWorker').val();
+            // Add AJAX call here to save the task to the server
+            // For example:
+            /*
+            $.ajax({
+                url: '@Url.Action("AddTask", "GroupAdmin")',
+                method: 'POST',
+                data: {
+                    Title: taskTitle,
+                    Worker: taskWorker
+                },
+                success: function(response){
+                    // Handle success response
+                },
+                error: function(error){
+                    // Handle error response
+                }
+            });
+            */
+            $('#addTaskModal').modal('hide');
+            alert('Task added successfully');
+        });
+    });
+</script>

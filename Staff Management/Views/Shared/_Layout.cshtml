@@ -36,5 +36,29 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @{
+        string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+        string navText = "Default Text";
+
+        switch (controllerName)
+        {
+            case "GroupAdmin":
+                navText = "Group Admin";
+                break;
+            case "Staff":
+                navText = "Staff";
+                break;
+            case "SystemAdmin":
+                navText = "System Admin";
+                break;
+            default:
+                navText = "Default Text";
+                break;
+        }
+    }
+    <script>
+        document.querySelector('.navbar-brand').innerText = '@navText';
+    </script>
 </body>
 </html>

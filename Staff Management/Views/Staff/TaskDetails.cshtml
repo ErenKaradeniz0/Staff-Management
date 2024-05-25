@@ -7,6 +7,7 @@
 
 <div class="container mt-5">
     <h1 id="taskTitle">Görev Detayı</h1>
+    <h5 id="taskStatus">Status</h5>
     <form>
         <div class="form-group">
             <label for="taskContent">Content</label>
@@ -21,12 +22,12 @@
 
 
 <script>
-    // URL parametrelerini al
-    const params = new URLSearchParams(window.location.search);
-    const title = params.get('title');
-    const content = params.get('content');
+    //// URL parametrelerini al
+    //const params = new URLSearchParams(window.location.search);
+    //const title = params.get('title');
+    //const content = params.get('content');
 
-    // Sayfadaki elementleri güncelle
-    document.getElementById('taskTitle').innerText = title;
-    document.getElementById('taskContent').innerText = content;
+    //// Sayfadaki elementleri güncelle
+    //document.getElementById('taskTitle').innerText = title;
+    //document.getElementById('taskContent').innerText = content;
 </script>

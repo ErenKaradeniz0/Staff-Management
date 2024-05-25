@@ -15,24 +15,13 @@ namespace Staff_Management.Models
         public string UserName { get; set; }
         public string UserSurname { get; set; }
 
-        public List<GroupAdminViewModel> ListTasks()
-        {
-            using (var ctx = new DbContextViewModel())
-            {
-                var query = from assignment in ctx.Assignments
-                            join user in ctx.Users on assignment.StaffId equals user.UserId
-                            join task in ctx.Tasks on user.UserId equals task.StaffId
-                            select new GroupAdminViewModel
-                            {
-                                TaskId = task.TaskId,
-                                TaskStatus = task.Status,
-                                TaskTitle = task.Title,
-                                UserName = user.Name,
-                                UserSurname = user.Surname
-                            };
+        // Correctly define the ListTasks property
+        public List<GroupAdminViewModel> ListTasks { get; set; }
 
-                return query.ToList();
-            }
+        // Optionally, you could initialize the list in the constructor
+        public GroupAdminViewModel()
+        {
+            ListTasks = new List<GroupAdminViewModel>();
         }
 
     }

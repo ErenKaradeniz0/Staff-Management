@@ -4,5 +4,100 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AssignStaff</h2>
 
+
+<div class="container mt-5">
+    <h2>Assign Staff</h2>
+
+    <div id="groupAdminList">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Group Admin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Admin 1</td>
+                    <td><button class="btn btn-info float-right" onclick="showStaffList(1)">Assign Staff</button></td>
+                </tr>
+                <tr>
+                    <td>Admin 2</td>
+                    <td><button class="btn btn-info float-right" onclick="showStaffList(2)">Assign Staff</button></td>
+                </tr>
+                <!-- Add more admins as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="staffList" class="d-none">
+        <h3>Assign Staff to Admin <span id="adminId"></span></h3>
+        <ul id="staffUl" class="list-group">
+            <!-- Staff members will be listed here -->
+        </ul>
+    </div>
+
+    <div id="assignedStaff" class="mt-4">
+        <h3>Staff working for Admin <span id="currentAdminId"></span></h3>
+        <ul id="assignedStaffUl" class="list-group">
+            <!-- Assigned staff members will be listed here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    const staffData = {
+        1: ['Staff 1', 'Staff 2', 'Staff 3'],
+        2: ['Staff 4', 'Staff 5', 'Staff 6']
+    };
+
+    const assignedStaff = {
+        1: [],
+        2: []
+    };
+
+    window.onload = function () {
+        document.getElementById('groupAdminList').classList.remove('d-none');
+    };
+
+    function showStaffList(adminId) {
+        document.getElementById('staffList').classList.remove('d-none');
+        document.getElementById('adminId').innerText = adminId;
+        document.getElementById('currentAdminId').innerText = adminId;
+
+        const staffUl = document.getElementById('staffUl');
+        staffUl.innerHTML = '';
+
+        staffData[adminId].forEach(staff => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = <input type="checkbox" onclick=""> ${staff};
+                staffUl.appendChild(li);
+        });
+
+                updateAssignedStaffList(adminId);
+    }
+
+                function assignStaff(adminId, staff) {
+        const index = assignedStaff[adminId].indexOf(staff);
+                if (index === -1) {
+                    assignedStaff[adminId].push(staff);
+        } else {
+                    assignedStaff[adminId].splice(index, 1);
+        }
+                updateAssignedStaffList(adminId);
+    }
+
+                function updateAssignedStaffList(adminId) {
+        const assignedStaffUl = document.getElementById('assignedStaffUl');
+                assignedStaffUl.innerHTML = '';
+
+        assignedStaff[adminId].forEach(staff => {
+            const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerText = staff;
+                assignedStaffUl.appendChild(li);
+        });
+    }
+</script>

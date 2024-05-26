@@ -1,31 +1,44 @@
-﻿
+﻿@model Staff_Management.Models.GroupAdminViewModel
 @{
     ViewBag.Title = "Tasks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container mt-4">
     <h2 id="taskTitle">Task Title</h2>
     <form id="taskForm">
-        <div class="form-group">
-            <label for="taskContent"><strong>Content:</strong></label>
-            <textarea id="taskContent" class="form-control" rows="4"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="taskComment"><strong>Comment:</strong></label>
-            <textarea id="taskComment" class="form-control" rows="4"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="staffSelect"><strong>Assign to Staff:</strong></label>
-            <select id="staffSelect" class="form-control">
-                <option>Staff 1</option>
-                <option>Staff 2</option>
-                <option>Staff 3</option>
-                <!-- More staff options can be added here -->
-            </select>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
-        <button type="button" class="btn btn-primary" onclick="MainPage()">Group Admin Main Page</button>
+        @foreach (var item in Model.ListTasks)
+        {
+            <div class="form-group">
+                <label for="taskContent"><strong>Content:</strong></label>
+                <textarea id="taskContent" class="form-control" rows="4" placeholder="@Html.DisplayFor(modelItem => item.TaskContent) "></textarea>
+            </div>
+            <div class="form-group">
+                <label for="taskComment"><strong>Comment:</strong></label>
+                <textarea id="taskComment" class="form-control" rows="4" placeholder="@Html.DisplayFor(modelItem => item.TaskComment)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="staffSelect"><strong>Assign to Staff:</strong></label>
+                <select id="staffSelect" class="form-control">
+                    @foreach (var item2 in Model.ListGroupStaff)
+                    {
+                        if (item2.UserId == item.StaffId)
+                        {
+                            <option value="@item2.UserId" selected>@Html.DisplayFor(modelItem => item2.UserName) @Html.DisplayFor(modelItem => item2.UserSurname)</option>
+                        }
+                        else
+                        {
+                            <option value="@item2.UserId">@Html.DisplayFor(modelItem => item2.UserName) @Html.DisplayFor(modelItem => item2.UserSurname)</option>
+                        }
+
+
+                    }
+
+                    <!-- More staff options can be added here -->
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+            <button type="button" class="btn btn-primary" onclick="MainPage()">Group Admin Main Page</button>
+        }
     </form>
 </div>
 
@@ -34,47 +47,39 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script>
-    // Function to load task details from URL parameters
-    function loadTaskDetails() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const title = params.get('title');
-        const content = params.get('content');
-        const comment = params.get('comment');
-        const assignedWorker = params.get('assignedWorker');
+@*<script>
+        // Function to load task details from URL parameters
+        function loadTaskDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const title = params.get('title');
+            const content = params.get('content');
+            const comment = params.get('comment');
+            const assignedWorker = params.get('assignedWorker');
 
-        document.getElementById('taskTitle').innerText = title;
-        document.getElementById('taskContent').value = content;
-        document.getElementById('taskComment').value = comment;
-        document.getElementById('staffSelect').value = assignedWorker || 'Staff 1'; // Default to 'Staff 1'
+            document.getElementById('taskTitle').innerText = title;
+            document.getElementById('taskContent').value = content;
+            document.getElementById('taskComment').value = comment;
+            document.getElementById('staffSelect').value = assignedWorker || 'Staff 1'; // Default to 'Staff 1'
 
-        document.getElementById('taskForm').dataset.id = id; // Store task ID in form's dataset
-    }
+            document.getElementById('taskForm').dataset.id = id; // Store task ID in form's dataset
+        }
+        S
+        // Function to save changes and redirect back to the task list page
+        function saveChanges() {
+            const id = document.getElementById('taskForm').dataset.id;
+            const title = document.getElementById('taskTitle').innerText;
+            const content = document.getElementById('taskContent').value;
+            const comment = document.getElementById('taskComment').value;
+            const assignedWorker = document.getElementById('staffSelect').value;
 
-    // Function to save changes and redirect back to the task list page
-    function saveChanges() {
-        const id = document.getElementById('taskForm').dataset.id;
-        const title = document.getElementById('taskTitle').innerText;
-        const content = document.getElementById('taskContent').value;
-        const comment = document.getElementById('taskComment').value;
-        const assignedWorker = document.getElementById('staffSelect').value;
+            // Store the updated task in localStorage
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || {};
+            tasks[id] = { title, content, comment, assignedWorker };
+            localStorage.setItem('tasks', JSON.stringify(tasks));
 
-        // Store the updated task in localStorage
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || {};
-        tasks[id] = { title, content, comment, assignedWorker };
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+            // Redirect back to the task list page
+            window.location.href = 'Index';
+        }
 
-        // Redirect back to the task list page
-        window.location.href = 'Index';
-    }
-
-    function MainPage() {
-
-        // Redirect back to the task list page
-        window.location.href = 'Index';
-    }
-
-    // Load task details on page load
-    window.onload = loadTaskDetails;
-</script>
+    </script>*@

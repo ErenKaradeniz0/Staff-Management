@@ -60,7 +60,7 @@ namespace Staff_Management.Controllers
             }
 
             // Redirect to the TaskDetails action with the ID of the updated task
-            return RedirectToAction("TaskDetails", new { id = existingTask.TaskId });
+            return RedirectToAction("Index");
         }
         public ActionResult Profile()
         {
@@ -73,11 +73,11 @@ namespace Staff_Management.Controllers
             var task = _context.Tasks.Find(taskId);
             if (task != null)
             {
-                task.Status = 2;
+                task.Status = 2; // Set to 'Completed'
                 _context.SaveChanges();
-                return Json(new { success = true });
             }
-            return Json(new { success = false });
+
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult ReportIssue(int id)
@@ -114,7 +114,7 @@ namespace Staff_Management.Controllers
                 return View("ConcurrencyError", ex);
             }
 
-            return RedirectToAction("ReportIssue", new { id = existingTask.TaskId });
+            return RedirectToAction("Index");
         }
     }
 }

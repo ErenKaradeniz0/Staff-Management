@@ -35,15 +35,43 @@
             @foreach (var task in Model)
             {
                 <tr>
-                    <td>@task.Status</td>
+                    <td>
+                        @{
+                            string CssClass;
+                            string statusText;
+                            switch (task.Status)
+                            {
+                                case 1:
+                                    CssClass = "text-primary";
+                                    statusText = "Open";
+                                    break;
+                                case 2:
+                                    CssClass = "text-success";
+                                    statusText = "Completed";
+                                    break;
+                                case 3:
+                                    CssClass = "text-danger";
+                                    statusText = "Problem";
+                                    break;
+                                default:
+                                    CssClass = "";
+                                    statusText = "Unknown";
+                                    break;
+                            }
+                        }
+                        <span class="@CssClass">@statusText</span>
+                    </td>
                     <td>@task.Title</td>
                     <td>
                         <a href="@Url.Action("TaskDetails", "Staff", new { id = task.TaskId })" class="btn btn-primary btn-sm">
                             <i class="fas fa-eye"></i> Görevi Görüntüle
                         </a>
-                        <button class="btn btn-success btn-sm" onclick="gorevTamamla(this, @task.TaskId)">
-                            <i class="fas fa-check"></i> Görev Tamamlandı
-                        </button>
+                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
+                            <input type="hidden" name="taskId" value="@task.TaskId" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i> Görev Tamamlandı
+                            </button>
+                        </form>
                         <a href="@Url.Action("ReportIssue", "Staff", new { id = task.TaskId })" class="btn btn-warning btn-sm">
                             <i class="fas fa-exclamation"></i> Sorun Bildir
                         </a>
@@ -53,28 +81,3 @@
         </tbody>
     </table>
 </div>
-
-<!-- Bootstrap JS ve Popper.js -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-    function gorevTamamla(button, taskId) {
-        // Send AJAX request to update task status
-        $.ajax({
-            url: '@Url.Action("UpdateTaskStatus", "Staff")',
-            type: 'POST',
-            data: { taskId: taskId },
-            success: function (data) {
-                // Update the status in the table row
-                var row = $(button).closest('tr');
-                row.find('td:first').text('Completed');
-                alert('Görev tamamlandı.');
-            },
-            error: function (error) {
-                console.log(error);
-                alert('Bir hata oluştu.');
-            }
-        });
-    }
-</script>

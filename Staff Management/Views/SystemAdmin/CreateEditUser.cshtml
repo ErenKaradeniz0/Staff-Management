@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Staff_Management.Models.Users>
+
+<div class="container mt-5">
+    <div id="createEditUserContent">
+        <h2>Create & Edit User</h2>
+        <ul class="list-group mb-4">
+            @foreach (var user in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @user.Name @user.Surname
+                    <button class="btn btn-secondary" onclick="editUser('@user.UserId', '@user.Name', '@user.Surname', '@user.Title', '@user.Type')">Edit</button>
+                </li>
+            }
+        </ul>
+
+        <button class="btn btn-success mb-3" onclick="toggleAddUserForm('AddUser')">New</button>
+
+        <div id="addUserFormContainer" style="display: none;">
+            <h3 id="formTitle">Add New User</h3>
+            @using (Html.BeginForm("AddUser", "SystemAdmin", FormMethod.Post, new { id = "userForm" }))
+            {
+                @Html.Hidden("UserId", null, new { id = "userId" })
+
+                <div class="form-group mt-2">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="Name" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="Surname" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="Email" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="Password" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="Title" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="Type">User Type</label>
+                    <select class="form-control" id="Type" name="Type" required>
+                        <option value="1">System Admin</option>
+                        <option value="2">Group Admin</option>
+                        <option value="3">Staff</option>
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="salary">Salary</label>
+                    <input type="number" class="form-control" id="salary" name="Salary" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="score">Score</label>
+                    <input type="number" class="form-control" id="score" name="Score" required>
+                </div>
+                <button id="formButton" type="submit" class="btn btn-primary mt-2 mb-4">Add User</button>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAddUserForm(actionName) {
+        var addUserFormContainer = document.getElementById('addUserFormContainer');
+        var formTitle = document.getElementById('formTitle');
+        if (addUserFormContainer.style.display === 'none') {
+            addUserFormContainer.style.display = 'block';
+        } else if (formTitle.innerHTML != 'Edit User') {
+            addUserFormContainer.style.display = 'none';
+        }
+
+        var form = document.getElementById('userForm');
+        form.action = '@Url.Action("AddUser", "SystemAdmin")'; // Change action to AddUser
+
+        var userIdInput = document.getElementById('userId');
+        formTitle.innerText = actionName === 'AddUser' ? 'Add New User' : 'Edit User';
+        userIdInput.value = '';
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('title').value = '';
+        document.getElementById('Type').value = '';
+        
+    }
+
+    function editUser(userId, firstName, lastName, title, userType) {
+        var form = document.getElementById('userForm');
+        form.action = '@Url.Action("UpdateUser", "SystemAdmin")'; // Default action
+        var addUserFormContainer = document.getElementById('addUserFormContainer');
+        var formTitle = document.getElementById('formTitle');
+        var formButton = document.getElementById('formButton');
+        var userIdInput = document.getElementById('userId');
+        formTitle.innerText = 'Edit User';
+        formButton.innerText = 'Update User';
+        userIdInput.value = userId;
+        document.getElementById('firstName').value = firstName;
+        document.getElementById('lastName').value = lastName;
+        document.getElementById('title').value = title;
+        document.getElementById('Type').value = userType;
+        if (addUserFormContainer.style.display === 'none') {
+            addUserFormContainer.style.display = 'block';
+        }
+
+    }
+</script>

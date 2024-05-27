@@ -1,51 +1,78 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<Staff_Management.Models.Users>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AdjustSalaries";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model IEnumerable<Staff_Management.Models.Users>
-    <div class="container mt-5">
-        <div class="row mb-4">
-
-            <div class="col-md-4">
-                <a href="assign_staff.html" class="btn btn-info btn-block"><i class="fas fa-users"></i> Assign Staff</a>
-            </div>
-            <div class="col-md-4">
-                <a href="create_edit_user.html" class="btn btn-info btn-block"><i class="fas fa-user-edit"></i> Create & Edit User</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Adjust Salaries</h3>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Score</th>
-                            <th>Salary</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody> @foreach (var model in Model) { <tr>
-                                <td>@Html.DisplayFor(modelitem => model.Type)</td>
-                                <td>@Html.DisplayFor(modelitem => model.Name)</td>
-                                <td>@Html.DisplayFor(modelitem => model.Surname)</td>
-                                <td>@Html.DisplayFor(modelitem => model.Score)</td>
-                                <td>@Html.TextBoxFor(modelitem => model.Salary, new { @class = "form-control" })</td>
-                                <td><button class="btn btn-primary btn-sm" id="saveButton"><i class="fas fa-save"></i> Save</button></td>
-                            </tr>
-
-                        }
-                    </tbody>
-                </table>
-            </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="display: flex; width: 100%; justify-content: space-around;">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/SystemAdmin/Index" style="text-align: center;">Adjust Salaries</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SystemAdmin/AssignStaff" style="text-align: center;">Assign Staff</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SystemAdmin/CreateEditUser" style="text-align: center;">Create & Edit User</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Adjust Salaries</h3>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Score</th>
+                        <th>Salary</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Score)</td>
+                            @using (Html.BeginForm("UpdateSalary", "SystemAdmin", FormMethod.Post))
+                            {
+                                <td>
+
+                                    @Html.Hidden("userId", item.UserId)
+                                    <input type="number" name="newSalary" class="form-control" value="@item.Salary" />
+                                </td>
+                                <td>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary btn-sm form-control">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                    </div>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,10 +1,30 @@
-﻿
+﻿@model Staff_Management.Models.AssignStaffViewModel
 @{
     ViewBag.Title = "AssignStaff";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="display: flex; width: 100%; justify-content: space-around;">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/SystemAdmin/Index" style="text-align: center;">Adjust Salaries</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SystemAdmin/AssignStaff" style="text-align: center;">Assign Staff</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SystemAdmin/CreateEditUser" style="text-align: center;">Create & Edit User</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
 
 <div class="container mt-5">
     <h2>Assign Staff</h2>
@@ -18,86 +38,96 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Admin 1</td>
-                    <td><button class="btn btn-info float-right" onclick="showStaffList(1)">Assign Staff</button></td>
-                </tr>
-                <tr>
-                    <td>Admin 2</td>
-                    <td><button class="btn btn-info float-right" onclick="showStaffList(2)">Assign Staff</button></td>
-                </tr>
-                <!-- Add more admins as needed -->
+                @foreach (var admin in Model.AdminList)
+                {
+                    <tr>
+                        <td>@admin.Name</td>
+                        <td>
+                            <button class="btn btn-info float-right" onclick="toggleStaffList('@admin.UserId', '@admin.Name')">Assign Staff</button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 
     <div id="staffList" class="d-none">
-        <h3>Assign Staff to Admin <span id="adminId"></span></h3>
+        <h3>Assign Staff to Admin <span id="adminName" data-admin-id=""></span></h3>
         <ul id="staffUl" class="list-group">
-            <!-- Staff members will be listed here -->
+            @foreach (var staff in Model.StaffList)
+            {
+                <li class="list-group-item">
+                    <input type="checkbox" class="form-check-input" onclick="assignStaff(this, '@staff.Name')"> @staff.Name
+                </li>
+            }
         </ul>
-    </div>
-
-    <div id="assignedStaff" class="mt-4">
-        <h3>Staff working for Admin <span id="currentAdminId"></span></h3>
-        <ul id="assignedStaffUl" class="list-group">
-            <!-- Assigned staff members will be listed here -->
-        </ul>
+        <div id="assignedStaff" class="mt-4">
+            <h3>Staff working for Admin <span id="currentAdminName"></span></h3>
+            <ul id="assignedStaffUl" class="list-group">
+                <!-- Assigned staff members will be listed here -->
+            </ul>
+        </div>
     </div>
 </div>
 
 <script>
-    const staffData = {
-        1: ['Staff 1', 'Staff 2', 'Staff 3'],
-        2: ['Staff 4', 'Staff 5', 'Staff 6']
-    };
+    const assignedStaff = {};
 
-    const assignedStaff = {
-        1: [],
-        2: []
-    };
+    function toggleStaffList(adminId, adminName) {
+        const staffList = document.getElementById('staffList');
+        const adminNameElement = document.getElementById('adminName');
+        const currentAdminNameElement = document.getElementById('currentAdminName');
 
-    window.onload = function () {
-        document.getElementById('groupAdminList').classList.remove('d-none');
-    };
+        if (staffList.classList.contains('d-none') || adminNameElement.getAttribute('data-admin-id') !== adminId) {
+            // Show the staff list
+            staffList.classList.remove('d-none');
+            // Update the admin name and data-admin-id attribute
+            adminNameElement.innerText = adminName;
+            adminNameElement.setAttribute('data-admin-id', adminId);
+            // Update the current admin name
+            currentAdminNameElement.innerText = adminName;
 
-    function showStaffList(adminId) {
-        document.getElementById('staffList').classList.remove('d-none');
-        document.getElementById('adminId').innerText = adminId;
-        document.getElementById('currentAdminId').innerText = adminId;
+            // Initialize assigned staff for this admin if not already
+            if (!assignedStaff[adminId]) {
+                assignedStaff[adminId] = [];
+            }
 
-        const staffUl = document.getElementById('staffUl');
-        staffUl.innerHTML = '';
+            // Update the assigned staff list
+            updateAssignedStaffList(adminId);
+        } else {
+            // Hide the staff list
+            staffList.classList.add('d-none');
+        }
+    }
 
-        staffData[adminId].forEach(staff => {
+    function assignStaff(checkbox, staffName) {
+        const adminId = document.getElementById('adminName').getAttribute('data-admin-id');
+
+        if (!assignedStaff[adminId]) {
+            assignedStaff[adminId] = [];
+        }
+
+        if (checkbox.checked) {
+            assignedStaff[adminId].push(staffName);
+        } else {
+            const index = assignedStaff[adminId].indexOf(staffName);
+            if (index !== -1) {
+                assignedStaff[adminId].splice(index, 1);
+            }
+        }
+        updateAssignedStaffList(adminId);
+    }
+
+
+    function updateAssignedStaffList(adminId) {
+        const assignedStaffUl = document.getElementById('assignedStaffUl');
+        assignedStaffUl.innerHTML = '';
+
+        assignedStaff[adminId].forEach(staffName => {
             const li = document.createElement('li');
             li.className = 'list-group-item';
-            li.innerHTML = <input type="checkbox" onclick=""> ${staff};
-                staffUl.appendChild(li);
-        });
-
-                updateAssignedStaffList(adminId);
-    }
-
-                function assignStaff(adminId, staff) {
-        const index = assignedStaff[adminId].indexOf(staff);
-                if (index === -1) {
-                    assignedStaff[adminId].push(staff);
-        } else {
-                    assignedStaff[adminId].splice(index, 1);
-        }
-                updateAssignedStaffList(adminId);
-    }
-
-                function updateAssignedStaffList(adminId) {
-        const assignedStaffUl = document.getElementById('assignedStaffUl');
-                assignedStaffUl.innerHTML = '';
-
-        assignedStaff[adminId].forEach(staff => {
-            const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerText = staff;
-                assignedStaffUl.appendChild(li);
+            li.innerText = staffName;
+            assignedStaffUl.appendChild(li);
         });
     }
 </script>

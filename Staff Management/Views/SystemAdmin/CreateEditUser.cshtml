@@ -8,7 +8,7 @@
             {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     @user.Name @user.Surname
-                    <button class="btn btn-secondary" onclick="editUser('@user.UserId', '@user.Name', '@user.Surname', '@user.Title', '@user.Type')">Edit</button>
+                    <button class="btn btn-secondary" onclick="editUser('@user.UserId', '@user.Name', '@user.Surname','@user.Email','@user.Title', '@user.Type','@user.Salary','@user.Score')">Edit</button>
                 </li>
             }
         </ul>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group mt-2">
                     <label for="Type">User Type</label>
-                    <select class="form-control" id="Type" name="Type" required>
+                    <select class="form-control" id="type" name="Type" required>
                         <option value="1">System Admin</option>
                         <option value="2">Group Admin</option>
                         <option value="3">Staff</option>
@@ -91,7 +91,7 @@
         
     }
 
-    function editUser(userId, firstName, lastName, title, userType) {
+    function editUser(userId, firstName, lastName,email, title, userType,salary,score) {
         var form = document.getElementById('userForm');
         form.action = '@Url.Action("UpdateUser", "SystemAdmin")'; // Default action
         var addUserFormContainer = document.getElementById('addUserFormContainer');
@@ -103,8 +103,11 @@
         userIdInput.value = userId;
         document.getElementById('firstName').value = firstName;
         document.getElementById('lastName').value = lastName;
+        document.getElementById('email').value = email;
         document.getElementById('title').value = title;
-        document.getElementById('Type').value = userType;
+        document.getElementById('type').value = userType;
+        document.getElementById('salary').value = salary;
+        document.getElementById('score').value = score;
         if (addUserFormContainer.style.display === 'none') {
             addUserFormContainer.style.display = 'block';
         }

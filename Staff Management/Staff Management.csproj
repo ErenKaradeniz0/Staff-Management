@@ -196,7 +196,7 @@
     <Content Include="Views\GroupAdmin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Staff\TaskDetails.cshtml" />
-    <Content Include="Views\Staff\Profile.cshtml" />
+    <Content Include="Views\Staff\ProfilePage.cshtml" />
     <Content Include="Views\Staff\ReportIssue.cshtml" />
     <Content Include="Views\GroupAdmin\Tasks.cshtml" />
     <Content Include="Views\SystemAdmin\Index.cshtml" />

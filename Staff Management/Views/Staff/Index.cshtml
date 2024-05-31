@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <style>
     .header {
         display: flex;
@@ -23,61 +24,78 @@
 
 <div class="container">
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Title</th>
-                <th>Buttons</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var task in Model)
-            {
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="center-container">
+            <div class="alert alert-danger font-weight-bold mb-0 large-text" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        </div>
+
+        <script>
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Login", "Account")';
+        }, 3000);
+        </script>
+    }
+    else
+    { <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @{
-                            string CssClass;
-                            string statusText;
-                            switch (task.Status)
-                            {
-                                case 1:
-                                    CssClass = "text-primary";
-                                    statusText = "Open";
-                                    break;
-                                case 2:
-                                    CssClass = "text-success";
-                                    statusText = "Completed";
-                                    break;
-                                case 3:
-                                    CssClass = "text-danger";
-                                    statusText = "Problem";
-                                    break;
-                                default:
-                                    CssClass = "";
-                                    statusText = "Unknown";
-                                    break;
-                            }
-                        }
-                        <span class="@CssClass">@statusText</span>
-                    </td>
-                    <td>@task.Title</td>
-                    <td>
-                        <a href="@Url.Action("TaskDetails", "Staff", new { id = task.TaskId })" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i> Görevi Görüntüle
-                        </a>
-                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
-                            <input type="hidden" name="taskId" value="@task.TaskId" />
-                            <button type="submit" class="btn btn-success btn-sm">
-                                <i class="fas fa-check"></i> Görev Tamamlandı
-                            </button>
-                        </form>
-                        <a href="@Url.Action("ReportIssue", "Staff", new { id = task.TaskId })" class="btn btn-warning btn-sm">
-                            <i class="fas fa-exclamation"></i> Sorun Bildir
-                        </a>
-                    </td>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Buttons</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var task in Model)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                string CssClass;
+                                string statusText;
+                                switch (task.Status)
+                                {
+                                    case 1:
+                                        CssClass = "text-primary";
+                                        statusText = "Open";
+                                        break;
+                                    case 2:
+                                        CssClass = "text-success";
+                                        statusText = "Completed";
+                                        break;
+                                    case 3:
+                                        CssClass = "text-danger";
+                                        statusText = "Problem";
+                                        break;
+                                    default:
+                                        CssClass = "";
+                                        statusText = "Unknown";
+                                        break;
+                                }
+                            }
+                            <span class="@CssClass">@statusText</span>
+                        </td>
+                        <td>@task.Title</td>
+                        <td>
+                            <a href="@Url.Action("TaskDetails", "Staff", new { taskId = task.TaskId })" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> Görevi Görüntüle
+                            </a>
+                            <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
+                                <input type="hidden" name="taskId" value="@task.TaskId" />
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> Görev Tamamlandı
+                                </button>
+                            </form>
+                            <a href="@Url.Action("ReportIssue", "Staff", new { taskId = task.TaskId })" class="btn btn-warning btn-sm">
+                                <i class="fas fa-exclamation"></i> Sorun Bildir
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
 </div>

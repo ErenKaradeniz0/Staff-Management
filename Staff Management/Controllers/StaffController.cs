@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,7 +21,8 @@ namespace Staff_Management.Controllers
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
             {
-                return RedirectToAction("Login", "Account");
+                ViewBag.LoginMessage = "User not found. Redirecting to the login page...";
+                return View();
             }
             int UserId = Convert.ToInt32(Session["UserId"]);
             var tasks = _context.Tasks.Where(t => t.StaffId == UserId).ToList();
@@ -28,13 +30,19 @@ namespace Staff_Management.Controllers
         }
         
         [HttpGet]
-        public ActionResult TaskDetails(int id)
+        public ActionResult TaskDetails(int? taskId)
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
             {
-                return RedirectToAction("Login", "Account");
+                ViewBag.LoginMessage = "User not found. Redirecting to the login page...";
+                return View();
             }
-            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == id);
+            else if(taskId == null)
+            {
+                ViewBag.ErrorMessage = "Task not found. Redirecting to the main page...";
+                return View();
+            }
+            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
 
             if (task == null)
             {
@@ -74,12 +82,13 @@ namespace Staff_Management.Controllers
             // Redirect to the TaskDetails action with the ID of the updated task
             return RedirectToAction("Index");
         }
-        public ActionResult Profile()
+        public ActionResult ProfilePage()
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
             {
-                return RedirectToAction("Login", "Account");
+                ViewBag.LoginMessage = "User not found. Redirecting to the login page...";
             }
+
             return View();
         }
 
@@ -96,13 +105,21 @@ namespace Staff_Management.Controllers
             return RedirectToAction("Index","Staff");
         }
         [HttpGet]
-        public ActionResult ReportIssue(int id)
+        public ActionResult ReportIssue(int? taskId)
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
             {
-                return RedirectToAction("Login", "Account");
+                ViewBag.LoginMessage = "User not found. Redirecting to the login page...";
+                return View();
             }
-            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == id);
+            else if (taskId == null)
+            {
+                ViewBag.ErrorMessage = "Task not found. Redirecting to the main page...";
+                return View();
+            }
+
+
+            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
 
             if (task == null)
             {

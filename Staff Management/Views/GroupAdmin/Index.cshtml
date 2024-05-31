@@ -53,13 +53,31 @@
                     <td>@task.StaffName @task.StaffSurname</td>
                     <td>
                         <div class="btn-group-action">
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks", new { viewTaskId = task.TaskId })">
+                            @{
+                                switch (task.Status)
+                                {
+                                    case 1:
+                                        CssClass = "btn-primary";
+                                        break;
+                                    case 2:
+                                        CssClass = "btn-success";
+                                        break;
+                                    case 3:
+                                        CssClass = "btn-danger";
+                                        statusText = "Problem";
+                                        break;
+                                    default:
+                                        CssClass = "";
+                                        break;
+                                }
+                            }
+                            <a class="btn @CssClass btn-sm" href="@Url.Action("Tasks", new { viewTaskId = task.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
-                            <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
+                            <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">
                                 <input type="hidden" name="taskId" value="@task.TaskId" />
                                 <button type="submit" class="btn btn-success btn-sm">
-                                    <i class="fas fa-check"></i> Görev Tamamlandı
+                                    <i class="fas fa-check"></i> Complete
                                 </button>
                             </form>
                         </div>
@@ -108,11 +126,11 @@
                     </div>
                     <!-- Hidden field for status -->
                     <input type="hidden" id="taskStatus" value="1">
+                    <button type="submit" class="btn btn-primary mt-2" id="saveTaskButton">add Task</button>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveTaskButton">Save Task</button>
             </div>
         </div>
     </div>

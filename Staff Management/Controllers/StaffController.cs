@@ -93,7 +93,7 @@ namespace Staff_Management.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index","GroupAdmin");
+            return RedirectToAction("Index","Staff");
         }
         [HttpGet]
         public ActionResult ReportIssue(int id)

@@ -65,6 +65,20 @@ namespace Staff_Management.Controllers
             // Pass the list to the view
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult UpdateTaskStatus(int taskId)
+        {
+            var task = _context.Tasks.Find(taskId);
+            if (task != null)
+            {
+                task.Status = 2; // Set to 'Completed'
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "GroupAdmin");
+        }
+
         [HttpGet]
         public ActionResult Tasks(int viewTaskId)
         {

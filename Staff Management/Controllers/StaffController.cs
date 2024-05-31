@@ -18,6 +18,10 @@ namespace Staff_Management.Controllers
         }
         public ActionResult Index()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             int UserId = Convert.ToInt32(Session["UserId"]);
             var tasks = _context.Tasks.Where(t => t.StaffId == UserId).ToList();
             return View(tasks);
@@ -26,6 +30,10 @@ namespace Staff_Management.Controllers
         [HttpGet]
         public ActionResult TaskDetails(int id)
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var task = _context.Tasks.FirstOrDefault(t => t.TaskId == id);
 
             if (task == null)
@@ -39,6 +47,10 @@ namespace Staff_Management.Controllers
         [HttpPost]
         public ActionResult TaskDetails(Tasks taskModel)
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var existingTask = _context.Tasks.Find(taskModel.TaskId);
 
             if (existingTask == null)
@@ -64,6 +76,10 @@ namespace Staff_Management.Controllers
         }
         public ActionResult Profile()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -77,11 +93,15 @@ namespace Staff_Management.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","GroupAdmin");
         }
         [HttpGet]
         public ActionResult ReportIssue(int id)
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var task = _context.Tasks.FirstOrDefault(t => t.TaskId == id);
 
             if (task == null)

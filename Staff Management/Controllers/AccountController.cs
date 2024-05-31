@@ -35,6 +35,7 @@ public class AccountController : Controller
             if (user != null)
             {
                 Session["UserId"] = user.UserId;
+                Session["UserType"] = user.Type;
                 
                 // Assuming user type is stored as an integer
                 switch (user.Type)

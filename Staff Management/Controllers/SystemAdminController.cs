@@ -24,10 +24,18 @@ namespace Staff_Management.Controllers
         }
         public ActionResult Index()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View(ListUser());
         }
         public ActionResult AssignStaff()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var model = new AssignStaffViewModel
             {
                 AdminList = _context.Users.Where(u => u.Type == 2).ToList(),
@@ -38,12 +46,17 @@ namespace Staff_Management.Controllers
         }
         public ActionResult CreateEditUser()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View(ListUser());
         }
 
         [HttpPost]
         public ActionResult UpdateUser(Users model)
         {
+
             if (ModelState.IsValid)
             {
                 // Retrieve the user from the database

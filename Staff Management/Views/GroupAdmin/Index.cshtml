@@ -1,67 +1,78 @@
-﻿@{
+﻿@model  Staff_Management.Models.GroupAdminViewModel
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<Staff_Management.Models.GroupAdminViewModel>
-
 <div class="container mt-4">
-    <h2>Finished Tasks</h2>
-    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTaskModal">
+    <h2>Tasks</h2>
+    <button id="modalButton" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTaskModal">
         <i class="fas fa-plus"></i> Add Task
     </button>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Status</th>
-                <th>Title</th>
+                <th>Task Title</th>
                 <th>Assigned Worker</th>
                 <th>Buttons</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var task in Model.ListGroupStaff)
             {
+                @Html.HiddenFor(model => task.TaskId)
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.TaskStatus)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UserName) @Html.DisplayFor(modelItem => item.UserSurname)</td>
+                    <td>
+                        @{
+                            string CssClass;
+                            string statusText;
+                            switch (task.Status)
+                            {
+                                case 1:
+                                    CssClass = "text-primary";
+                                    statusText = "Open";
+                                    break;
+                                case 2:
+                                    CssClass = "text-success";
+                                    statusText = "Completed";
+                                    break;
+                                case 3:
+                                    CssClass = "text-danger";
+                                    statusText = "Problem";
+                                    break;
+                                default:
+                                    CssClass = "";
+                                    statusText = "Unknown";
+                                    break;
+                            }
+                        }
+                        <span class="@CssClass">@statusText</span>
+                    </td>
+                    <td>@task.Title</td>
+                    <td>@task.StaffName @task.StaffSurname</td>
                     <td>
                         <div class="btn-group-action">
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks", new { viewTaskId = item.TaskId })">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Tasks", new { viewTaskId = task.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
-                            <button class="btn btn-success btn-sm" onclick="">
-                                <i class="fas fa-check"></i> Completed
-                            </button>
+                            <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
+                                <input type="hidden" name="taskId" value="@task.TaskId" />
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> Görev Tamamlandı
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
             }
-
-            <tr>
-                <td>Completed</td>
-                <td>Task Title 2</td>
-                <td>Worker 2</td>
-                <td>
-                    <div class="btn-group-action">
-                        <a class="btn btn-primary btn-sm" href="@Url.Action("Task", new { id = 2, title = "Task Title 2", content = "Task Content 2", comment = "Task Comment 2", assignedWorker = "Worker 2" })">
-                            <i class="fa-solid fa-eye"></i> View Task
-                        </a>
-                        <button class="btn btn-success btn-sm" onclick="">
-                            <i class="fa-solid fa-check"></i> Complete
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <!-- Add more task rows as needed -->
         </tbody>
     </table>
 </div>
 
-<!-- Add Task Modal -->
-<div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addTaskModalLabel">Add New Task</h5>
@@ -71,50 +82,82 @@
             </div>
             <div class="modal-body">
                 <form id="addTaskForm">
+                    <!-- Task Title -->
                     <div class="form-group">
                         <label for="taskTitle">Task Title</label>
                         <input type="text" class="form-control" id="taskTitle" required>
+                        <div class="invalid-feedback">Please provide a task title.</div>
                     </div>
+                    <!-- Assigned Worker -->
                     <div class="form-group">
                         <label for="taskWorker">Assigned Worker</label>
                         <input type="text" class="form-control" id="taskWorker" required>
+                        <div class="invalid-feedback">Please provide the assigned worker.</div>
                     </div>
-                    <!-- Add more input fields as needed -->
-                    <button type="submit" class="btn btn-primary">Save Task</button>
+                    <!-- Comments -->
+                    <div class="form-group">
+                        <label for="taskComments">Comments</label>
+                        <textarea class="form-control" id="taskComments" rows="3" required></textarea>
+                        <div class="invalid-feedback">Please provide some comments.</div>
+                    </div>
+                    <!-- Contents -->
+                    <div class="form-group">
+                        <label for="taskContents">Contents</label>
+                        <textarea class="form-control" id="taskContents" rows="5" required></textarea>
+                        <div class="invalid-feedback">Please provide some contents.</div>
+                    </div>
+                    <!-- Hidden field for status -->
+                    <input type="hidden" id="taskStatus" value="1">
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveTaskButton">Save Task</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('#addTaskForm').on('submit', function(event){
-            event.preventDefault();
-            var taskTitle = $('#taskTitle').val();
-            var taskWorker = $('#taskWorker').val();
-            // Add AJAX call here to save the task to the server
-            // For example:
-            /*
-            $.ajax({
-                url: '@Url.Action("AddTask", "GroupAdmin")',
-                method: 'POST',
-                data: {
-                    Title: taskTitle,
-                    Worker: taskWorker
-                },
-                success: function(response){
-                    // Handle success response
-                },
-                error: function(error){
-                    // Handle error response
-                }
+
+
+@section scripts {
+    <script>
+
+        $(document).ready(function () {
+            // Attach click event handler to the "Add Task" button
+            $('#modalButton').on('click', function () {
+                // Show the modal
+                $('#addTaskModal').modal('show');
             });
-            */
-            $('#addTaskModal').modal('hide');
-            alert('Task added successfully');
         });
-    });
-</script>
+        $(document).ready(function () {
+            // Attach click event handler to the "Save Task" button
+            $('#saveTaskButton').on('click', function () {
+                var taskTitle = $('#taskTitle').val();
+                var taskWorker = $('#taskWorker').val();
+
+                // Perform form validation if needed
+
+                // AJAX call to add the task
+                $.ajax({
+                    url: '/YourController/AddTask', // Replace '/YourController/AddTask' with the actual URL to your controller action for adding tasks
+                    method: 'POST',
+                    data: {
+                        Title: taskTitle,
+                        Worker: taskWorker
+                    },
+                    success: function (response) {
+                        // Handle success response
+                        $('#addTaskModal').modal('hide'); // Hide the modal
+                        alert('Task added successfully'); // Show success message
+                        // Optionally, you can refresh the task list or perform any other action
+                    },
+                    error: function (error) {
+                        // Handle error response
+                        //alert('Error adding task: ' + error.responseText); // Show error message
+                    }
+                });
+            });
+        });
+    </script>
+}

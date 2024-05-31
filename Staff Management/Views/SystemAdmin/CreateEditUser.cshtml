@@ -74,10 +74,6 @@
                     </div>
                 </div>
             }
-
-
-
-
         </div>
     </div>
 </div>
@@ -86,45 +82,59 @@
     function toggleAddUserForm(actionName) {
         var addUserFormContainer = document.getElementById('addUserFormContainer');
         var formTitle = document.getElementById('formTitle');
+        var formButton = document.getElementById('formButton');
+        var form = document.getElementById('userForm');
+
         if (addUserFormContainer.style.display === 'none') {
             addUserFormContainer.style.display = 'block';
         } else if (formTitle.innerHTML != 'Edit User') {
             addUserFormContainer.style.display = 'none';
         }
 
-        var form = document.getElementById('userForm');
-        form.action = '@Url.Action("AddUser", "SystemAdmin")'; // Change action to AddUser
-
-        var userIdInput = document.getElementById('userId');
-        formTitle.innerText = actionName === 'AddUser' ? 'Add New User' : 'Edit User';
-        userIdInput.value = '';
-        document.getElementById('firstName').value = '';
-        document.getElementById('lastName').value = '';
-        document.getElementById('title').value = '';
-        document.getElementById('Type').value = '';
-        
+        if (actionName === 'AddUser') {
+            form.action = '@Url.Action("AddUser", "SystemAdmin")';
+            formTitle.innerText = 'Add New User';
+            formButton.innerText = 'Add User';
+            document.getElementById('userId').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.getElementById('title').value = '';
+            document.getElementById('type').value = '';
+            document.getElementById('salary').value = '';
+        }
     }
 
-    function editUser(userId, firstName, lastName,email, title, userType,salary,score) {
+    function editUser(userId, firstName, lastName, email, title, userType, salary, score) {
+
         var form = document.getElementById('userForm');
-        form.action = '@Url.Action("UpdateUser", "SystemAdmin")'; // Default action
         var addUserFormContainer = document.getElementById('addUserFormContainer');
         var formTitle = document.getElementById('formTitle');
         var formButton = document.getElementById('formButton');
-        var userIdInput = document.getElementById('userId');
+
         formTitle.innerText = 'Edit User';
         formButton.innerText = 'Update User';
-        userIdInput.value = userId;
+
+        if (addUserFormContainer.style.display === 'none') {
+            addUserFormContainer.style.display = 'block';
+        } else if (formTitle.innerHTML == 'Edit User' && document.getElementById('email').value == email) {
+            addUserFormContainer.style.display = 'none';
+        }
+        form.action = '@Url.Action("UpdateUser", "SystemAdmin")';
+
+
+        document.getElementById('userId').value = userId;
         document.getElementById('firstName').value = firstName;
         document.getElementById('lastName').value = lastName;
         document.getElementById('email').value = email;
+        document.getElementById('password').value = ''; // Password fields should remain empty for security
+        document.getElementById('confirmPassword').value = ''; // Password fields should remain empty for security
         document.getElementById('title').value = title;
         document.getElementById('type').value = userType;
         document.getElementById('salary').value = salary;
-        document.getElementById('score').value = score;
-        if (addUserFormContainer.style.display === 'none') {
-            addUserFormContainer.style.display = 'block';
-        }
+
 
     }
 </script>

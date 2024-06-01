@@ -26,6 +26,12 @@ namespace Staff_Management.Controllers
         [HttpGet]
         public ActionResult ProfilePage()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0)
+            {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
+                return RedirectToAction("Login", "Account");
+            }
+
             int userId = Convert.ToInt32(Session["UserId"]);
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
             if (user == null)

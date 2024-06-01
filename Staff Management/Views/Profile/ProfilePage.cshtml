@@ -14,52 +14,50 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.UserId)
-
-                <div class="form-group mt-2">
-                    @Html.LabelFor(model => model.Name)
-                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter your name" })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <div class="form-group">
+                <label for="username">Name</label>
+                <input type="text" class="form-control" id="name" name="Name" value="@Model.Name">
                 </div>
-                <div class="form-group mt-2">
-                    @Html.LabelFor(model => model.Surname)
-                    @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", placeholder = "Enter your surname" })
-                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" class="form-control" id="surname" name="Surname" value="@Model.Surname">
                 </div>
-                <div class="form-group mt-2">
-                    @Html.LabelFor(model => model.Title)
-                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "Enter your title", @readonly = "readonly" })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="Email" value="@Model.Email">
                 </div>
-
-                <div class="form-group mt-2">
-                    @Html.LabelFor(model => model.Salary)
-                    @Html.TextBoxFor(model => model.Salary, new { @class = "form-control", @readonly = "readonly" })
-                    @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="Password" value="@Model.Password">
                 </div>
-                @Html.HiddenFor(model => model.Type) <!-- Hidden type field -->
+                <div class="form-group">
+                    <label for="salary">Salary</label>
+                    <label id="salary" class="form-control">@Model.Salary</label>
+                </div>
+                @Html.HiddenFor(model => model.Type)  <!-- Hidden type field -->
                 <div class="mt-4 d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                     @{
-                        string homeUrl = "";
-                        switch (Model.Type)
-                        {
-                            case 3:
-                                homeUrl = Url.Action("Index", "Staff");
-                                break;
-                            case 2:
-                                homeUrl = Url.Action("Index", "GroupAdmin");
-                                break;
-                            case 1:
-                                homeUrl = Url.Action("Index", "SystemAdmin");
-                                break;
-                            default:
+                                                string homeUrl = "";
+                                                switch (Model.Type)
+                                                {
+                                                    case 3:
+                                                        homeUrl = Url.Action("Index", "Staff");
+                                                        break;
+                                                    case 2:
+                                                        homeUrl = Url.Action("Index", "GroupAdmin");
+                                                        break;
+                                                    case 1:
+                                                        homeUrl = Url.Action("Index", "SystemAdmin");
+                                                        break;
+                                                    default:
 
-                                break;
-                        }
+                                                        break;
+                                                }
                     }
                     <a href="@homeUrl" class="btn btn-secondary">Home Page</a>
                 </div>
-            }
+                }
         </div>
     </div>
 </div>

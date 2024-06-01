@@ -25,12 +25,12 @@
 <div class="container">
     @if (ViewBag.ErrorMessage != null)
     {
-    <div class="alert alert-warning font-weight-bold mt-2" role="alert">
-        @ViewBag.ErrorMessage
-    </div>
+        <div class="alert alert-warning font-weight-bold mt-2" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
     }
     <table class="table table-striped">
-        <thead> 
+        <thead>
             <tr>
                 <th>Status</th>
                 <th>Title</th>
@@ -69,18 +69,21 @@
                     </td>
                     <td>@task.Title</td>
                     <td>
-                        <a href="@Url.Action("TaskDetails", "Staff", new { taskId = task.TaskId })" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i> View Task
+                        <a href="@Url.Action("TaskDetails", "Staff", new { taskId = task.TaskId })" class="btn btn-sm">
+                            <i class="fas fa-eye"></i> Görevi Görüntüle
                         </a>
-                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline-block;">
+                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
                             <input type="hidden" name="taskId" value="@task.TaskId" />
-                            <button type="submit" class="btn btn-success btn-sm">
-                                <i class="fas fa-check"></i> Task completed
-                            </button>
+                            @if (task.Status != 2)
+                            {
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> Görev Tamamlandı
+                                </button>
+                                <a href="@Url.Action("ReportIssue", "Staff", new { taskId = task.TaskId })" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-exclamation"></i> Sorun Bildir
+                                </a>
+                            }
                         </form>
-                        <a href="@Url.Action("ReportIssue", "Staff", new { taskId = task.TaskId })" class="btn btn-warning btn-sm">
-                            <i class="fas fa-exclamation"></i> Report Issue
-                        </a>
                     </td>
                 </tr>
             }

@@ -133,9 +133,12 @@
                             </a>
                             <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">
                                 <input type="hidden" name="taskId" value="@task.TaskId" />
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    <i class="fas fa-check"></i> Complete
-                                </button>
+                                @if (task.Status  != 2)
+                                {
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="fas fa-check"></i> Complete
+                                    </button>
+                                }
                             </form>
                         </div>
                     </td>

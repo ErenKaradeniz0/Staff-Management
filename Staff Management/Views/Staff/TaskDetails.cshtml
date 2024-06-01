@@ -5,60 +5,28 @@
 }
 
 <div class="container mt-5">
-    @if (ViewBag.LoginMessage != null)
+    <h1 id="taskTitle">Görev Detayı</h1>
+    <h5 id="taskStatus">Status</h5>
+    <br />
+    @using (Html.BeginForm("TaskDetails", "Staff", FormMethod.Post))
     {
-        <div class="center-container">
-            <div class="alert alert-danger font-weight-bold mb-0 large-text" role="alert">
-                @ViewBag.LoginMessage
-            </div>
+        @Html.HiddenFor(model => model.TaskId)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.StaffId)
+        @Html.HiddenFor(model => model.Contents)
+        <div class="form-group">
+            <label for="taskContent">Content</label>
+            <textarea class="form-control" id="taskContent" rows="5" readonly style="resize: none;">@Model.Contents</textarea>
         </div>
 
-        <script>
-        setTimeout(function() {
-            window.location.href = '@Url.Action("Login", "Account")';
-        }, 3000);
-        </script>
-    }
-    else if (ViewBag.ErrorMessage != null)
-    {
-        <div class="center-container">
-            <div class="alert alert-danger font-weight-bold mb-0 large-text" role="alert">
-                @ViewBag.ErrorMessage
-            </div>
+        <div class="form-group mt-3">
+            <label for="taskComment">Comment</label>
+            <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
         </div>
-
-        <script>
-        setTimeout(function() {
-            window.location.href = '@Url.Action("Index", "Staff")';
-        }, 3000);
-        </script>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-lg-2">Değişiklikleri Kaydet</button>
+            <a href="@Url.Action("Index", "Staff")" class="btn btn-secondary">Ana Sayfa</a>
+        </div>
     }
-    else
-    {
-        <h1 id="taskTitle">Görev Detayı</h1>
-        <h5 id="taskStatus">Status</h5>
-        <br />
-        using (Html.BeginForm("TaskDetails", "Staff", FormMethod.Post))
-        {
-            @Html.HiddenFor(model => model.TaskId)
-            @Html.HiddenFor(model => model.Title)
-            @Html.HiddenFor(model => model.Status)
-            @Html.HiddenFor(model => model.StaffId)
-            @Html.HiddenFor(model => model.Contents)
-            <div class="form-group">
-                <label for="taskContent">Content</label>
-                <textarea class="form-control" id="taskContent" rows="5" readonly style="resize: none;">@Model.Contents</textarea>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="taskComment">Comment</label>
-                <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
-            </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary me-lg-2">Değişiklikleri Kaydet</button>
-                <a href="@Url.Action("Index", "Staff")" class="btn btn-secondary">Ana Sayfa</a>
-            </div>
-        }
-    }
-
 </div>

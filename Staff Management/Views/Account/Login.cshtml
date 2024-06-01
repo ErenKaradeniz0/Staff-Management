@@ -17,9 +17,13 @@
                 @using (Html.BeginForm(null, null, FormMethod.Post))
                 {
                     @Html.AntiForgeryToken() <!-- Include Anti-Forgery Token -->
-                    <div class="text-center">
-                        <h5 class="h5 small text-gray-900 mb-4 font-weight-bold">@ViewBag.Message</h5> @*connection check*@
-                    </div>
+                    if (ViewBag.LoginMessage != null)
+                    {
+                            <div class="alert alert-warning font-weight-bold mb-0" role="alert">
+                                @ViewBag.LoginMessage
+                            </div>
+                    }
+
                     <h1 class="text-primary">Staff Management</h1>
                     <!-- Email input -->
                     <div data-mdb-input-init class="form-outline mb-4">

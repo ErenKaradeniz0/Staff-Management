@@ -6,53 +6,21 @@
 
 
 <div class="container mt-5">
-    @if (ViewBag.LoginMessage != null)
+    <h1 id="taskTitle">@Model.Title İçin Sorun Bildir</h1>
+    @using (Html.BeginForm("ReportIssue", "Staff", FormMethod.Post))
     {
-        <div class="center-container">
-            <div class="alert alert-danger font-weight-bold mb-0 large-text" role="alert">
-                @ViewBag.LoginMessage
-            </div>
-        </div>
-
-        <script>
-        setTimeout(function() {
-            window.location.href = '@Url.Action("Login", "Account")';
-        }, 3000);
-        </script>
+    @Html.HiddenFor(model => model.TaskId)
+    @Html.HiddenFor(model => model.Title)
+    @Html.HiddenFor(model => model.Status, new { Value = 3 })
+    @Html.HiddenFor(model => model.StaffId)
+    @Html.HiddenFor(model => model.Contents)
+    <div class="form-group">
+        <label for="issueContent">Sorun</label>
+        <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary me-lg-2">Gönder</button>
+        <a href="/Staff/Index" class="btn btn-secondary">Ana Sayfa</a>
+    </div>
     }
-    else if (ViewBag.ErrorMessage != null)
-    {
-        <div class="center-container">
-            <div class="alert alert-danger font-weight-bold mb-0 large-text" role="alert">
-                @ViewBag.ErrorMessage
-            </div>
-        </div>
-
-        <script>
-        setTimeout(function() {
-            window.location.href = '@Url.Action("Index", "Staff")';
-        }, 3000);
-        </script>
-    }
-    else
-    {
-        <h1 id="taskTitle">@Model.Title İçin Sorun Bildir</h1>
-        using (Html.BeginForm("ReportIssue", "Staff", FormMethod.Post))
-        {
-            @Html.HiddenFor(model => model.TaskId)
-            @Html.HiddenFor(model => model.Title)
-            @Html.HiddenFor(model => model.Status, new { Value = 3 })
-            @Html.HiddenFor(model => model.StaffId)
-            @Html.HiddenFor(model => model.Contents)
-            <div class="form-group">
-                <label for="issueContent">Sorun</label>
-                <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
-            </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary me-lg-2">Gönder</button>
-                <a href="/Staff/Index" class="btn btn-secondary">Ana Sayfa</a>
-            </div>
-        }
-    }
-
 </div>

@@ -15,8 +15,11 @@ public class AccountController : Controller
 
     [HttpGet]
     public ActionResult Login()
-
     {
+        if (TempData["LoginMessage"] != null)
+        {
+            ViewBag.LoginMessage = "User not found. You have been redirected.";
+        }
         return View();
     }
 

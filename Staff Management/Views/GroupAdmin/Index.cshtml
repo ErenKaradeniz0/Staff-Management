@@ -21,25 +21,38 @@
             <form id="addTaskForm" style="display:none;">
                 <!-- Task Title -->
                 <div class="form-group">
-                    <label for="taskTitle">Task Title</label>
+                    <label for="taskTitle"><strong>Task Title</strong></label>
                     <input type="text" class="form-control" id="taskTitle" required>
                     <div class="invalid-feedback">Please provide a task title.</div>
                 </div>
                 <!-- Assigned Worker -->
                 <div class="form-group">
-                    <label for="taskWorker">Assigned Worker</label>
-                    <input type="text" class="form-control" id="taskWorker" required>
+                    <label for="staffSelect"><strong>Assign to Staff</strong></label>
+                    <select id="staffSelect" name="StaffId" class="form-control">
+                        @for (int j = 0; j < Model.ListGroupStaff.Count; j++)
+                        {
+                            var staff = Model.ListGroupStaff[j];
+                            if (staff.StaffId == Model.StaffId)
+                            {
+                                <option value="@staff.StaffId" selected>@staff.StaffName @staff.StaffSurname</option>
+                            }
+                            else
+                            {
+                                <option value="@staff.StaffId">@staff.StaffName @staff.StaffSurname</option>
+                            }
+                        }
+                    </select>
                     <div class="invalid-feedback">Please provide the assigned worker.</div>
                 </div>
                 <!-- Comments -->
                 <div class="form-group">
-                    <label for="taskComments">Comments</label>
+                    <label for="taskComments"><strong>Comments</strong></label>
                     <textarea class="form-control" id="taskComments" rows="3" required></textarea>
                     <div class="invalid-feedback">Please provide some comments.</div>
                 </div>
                 <!-- Contents -->
                 <div class="form-group">
-                    <label for="taskContents">Contents</label>
+                    <label for="taskContents"><strong>Contents</strong></label>
                     <textarea class="form-control" id="taskContents" rows="5" required></textarea>
                     <div class="invalid-feedback">Please provide some contents.</div>
                 </div>

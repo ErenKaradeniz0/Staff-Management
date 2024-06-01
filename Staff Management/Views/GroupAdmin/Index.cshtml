@@ -6,7 +6,7 @@
 
 <div class="container mt-4">
     <h2>Tasks</h2>
-    <button id="modalButton" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTaskModal">
+    <button id="OpenAddTaskButton" type="button" class="btn btn-primary mb-3"  >
         <i class="fas fa-plus"></i> Add Task
     </button>
     @if (ViewBag.ErrorMessage != null)
@@ -15,6 +15,38 @@
             @ViewBag.ErrorMessage
         </div>
     }
+    <h2>Add New Task</h2>
+    <form id="addTaskForm" style="display:none;">
+        <!-- Task Title -->
+        <div class="form-group">
+            <label for="taskTitle">Task Title</label>
+            <input type="text" class="form-control" id="taskTitle" required>
+            <div class="invalid-feedback">Please provide a task title.</div>
+        </div>
+        <!-- Assigned Worker -->
+        <div class="form-group">
+            <label for="taskWorker">Assigned Worker</label>
+            <input type="text" class="form-control" id="taskWorker" required>
+            <div class="invalid-feedback">Please provide the assigned worker.</div>
+        </div>
+        <!-- Comments -->
+        <div class="form-group">
+            <label for="taskComments">Comments</label>
+            <textarea class="form-control" id="taskComments" rows="3" required></textarea>
+            <div class="invalid-feedback">Please provide some comments.</div>
+        </div>
+        <!-- Contents -->
+        <div class="form-group">
+            <label for="taskContents">Contents</label>
+            <textarea class="form-control" id="taskContents" rows="5" required></textarea>
+            <div class="invalid-feedback">Please provide some contents.</div>
+        </div>
+        <!-- Hidden field for status -->
+        <input type="hidden" id="taskStatus" value="1">
+        <button type="submit" class="btn btn-primary mt-2" id="saveTaskButton">Add Task</button>
+        <button type="button" class="btn btn-danger mt-2" id="cancelTaskButton">Cancel</button>
+    </form>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -94,94 +126,36 @@
     </table>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addTaskModalLabel">Add New Task</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="addTaskForm">
-                    <!-- Task Title -->
-                    <div class="form-group">
-                        <label for="taskTitle">Task Title</label>
-                        <input type="text" class="form-control" id="taskTitle" required>
-                        <div class="invalid-feedback">Please provide a task title.</div>
-                    </div>
-                    <!-- Assigned Worker -->
-                    <div class="form-group">
-                        <label for="taskWorker">Assigned Worker</label>
-                        <input type="text" class="form-control" id="taskWorker" required>
-                        <div class="invalid-feedback">Please provide the assigned worker.</div>
-                    </div>
-                    <!-- Comments -->
-                    <div class="form-group">
-                        <label for="taskComments">Comments</label>
-                        <textarea class="form-control" id="taskComments" rows="3" required></textarea>
-                        <div class="invalid-feedback">Please provide some comments.</div>
-                    </div>
-                    <!-- Contents -->
-                    <div class="form-group">
-                        <label for="taskContents">Contents</label>
-                        <textarea class="form-control" id="taskContents" rows="5" required></textarea>
-                        <div class="invalid-feedback">Please provide some contents.</div>
-                    </div>
-                    <!-- Hidden field for status -->
-                    <input type="hidden" id="taskStatus" value="1">
-                    <button type="submit" class="btn btn-primary mt-2" id="saveTaskButton">add Task</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-@section scripts {
+@section Scripts {
     <script>
-
-        $(document).ready(function () {
-            // Attach click event handler to the "Add Task" button
-            $('#modalButton').on('click', function () {
-                // Show the modal
-                $('#addTaskModal').modal('show');
-            });
+        document.getElementById('OpenAddTaskButton').addEventListener('click', function () {
+            document.getElementById('addTaskForm').style.display = 'block';
         });
-        $(document).ready(function () {
-            // Attach click event handler to the "Save Task" button
-            $('#saveTaskButton').on('click', function () {
-                var taskTitle = $('#taskTitle').val();
-                var taskWorker = $('#taskWorker').val();
 
-                // Perform form validation if needed
-
-                // AJAX call to add the task
-                $.ajax({
-                    url: '/YourController/AddTask', // Replace '/YourController/AddTask' with the actual URL to your controller action for adding tasks
-                    method: 'POST',
-                    data: {
-                        Title: taskTitle,
-                        Worker: taskWorker
-                    },
-                    success: function (response) {
-                        // Handle success response
-                        $('#addTaskModal').modal('hide'); // Hide the modal
-                        alert('Task added successfully'); // Show success message
-                        // Optionally, you can refresh the task list or perform any other action
-                    },
-                    error: function (error) {
-                        // Handle error response
-                        //alert('Error adding task: ' + error.responseText); // Show error message
-                    }
-                });
-            });
+        document.getElementById('cancelTaskButton').addEventListener('click', function () {
+            document.getElementById('addTaskForm').style.display = 'none';
         });
+
+        document.getElementById('addTaskForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var isValid = true;
+
+            ['taskTitle', 'taskWorker', 'taskComments', 'taskContents'].forEach(function (id) {
+                var element = document.getElementById(id);
+                if (!element.value) {
+                    element.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    element.classList.remove('is-invalid');
+                }
+            });
+
+            if (isValid) {
+                alert('Task added successfully!');
+                this.reset();
+                document.getElementById('addTaskForm').style.display = 'none';
+            }
+        });
+
     </script>
 }

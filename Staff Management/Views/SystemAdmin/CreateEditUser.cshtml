@@ -3,27 +3,18 @@
 <div class="container mt-5">
     <div id="createEditUserContent">
         <h2>Create & Edit User</h2>
-        <ul class="list-group mb-4">
-            @foreach (var user in Model)
-            {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    @user.Name @user.Surname
-                    <button class="btn btn-secondary" onclick="editUser('@user.UserId', '@user.Name', '@user.Surname','@user.Email','@user.Title', '@user.Type','@user.Salary','@user.Score')">Edit</button>
-                </li>
-            }
-        </ul>
 
         <button class="btn btn-success mb-3" onclick="toggleAddUserForm('AddUser')">New</button>
 
         <div id="addUserFormContainer" style="display: none;">
-            <h3 id="formTitle">Add New User</h3>
+            
             @using (Html.BeginForm("AddUser", "SystemAdmin", FormMethod.Post, new { id = "userForm" }))
             {
                 @Html.Hidden("UserId", null, new { id = "userId" })
 
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h3 class="card-title">Add User</h3>
+                        <h3 id="formTitle">Add New User</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -75,6 +66,16 @@
                 </div>
             }
         </div>
+        <ul class="list-group mb-4">
+            @foreach (var user in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @user.Name @user.Surname
+                    <button class="btn btn-secondary" onclick="editUser('@user.UserId', '@user.Name', '@user.Surname','@user.Email','@user.Title', '@user.Type','@user.Salary','@user.Score')">Edit</button>
+                </li>
+            }
+        </ul>
+
     </div>
 </div>
 

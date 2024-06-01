@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container mt-4">
-    <h2 id="taskTitle">Task Title</h2>
+    <h2 id="taskTitle">@Model.Title</h2>
     <br />
     @using (Html.BeginForm("Tasks", "GroupAdmin", FormMethod.Post))
     {

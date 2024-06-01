@@ -45,7 +45,7 @@ public class AccountController : Controller
                 {
                     case 1: // System Admin
                             // Implement authentication and set user session
-                        return RedirectToAction("Index", "SystemAdmin");
+                        return RedirectToAction("AdjustSalaries", "SystemAdmin");
                     case 2: // Group Admin
                             // Implement authentication and set user session
                         return RedirectToAction("Index", "GroupAdmin");

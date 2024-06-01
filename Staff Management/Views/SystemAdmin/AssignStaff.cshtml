@@ -4,27 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav" style="display: flex; width: 100%; justify-content: space-around;">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/SystemAdmin/Index" style="text-align: center;">Adjust Salaries</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/SystemAdmin/AssignStaff" style="text-align: center;">Assign Staff</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/SystemAdmin/CreateEditUser" style="text-align: center;">Create & Edit User</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</div>
+@Html.Partial("SystemAdminNav")
 
 <div class="container mt-5">
     <h2>Assign Staff</h2>
@@ -38,12 +18,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var admin in Model.AdminList)
+                @foreach (var groupAdmin in Model.GroupAdminList )
                 {
                     <tr>
-                        <td>@admin.Name</td>
+                        <td>@groupAdmin.Name @groupAdmin.Surname</td>
                         <td>
-                            <button class="btn btn-info float-right" onclick="toggleStaffList('@admin.UserId', '@admin.Name')">Assign Staff</button>
+                            <button class="btn btn-info float-right" onclick="toggleStaffList('@groupAdmin.UserId', '@groupAdmin.Name')">Assign Staff</button>
                         </td>
                     </tr>
                 }

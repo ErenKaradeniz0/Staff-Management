@@ -22,7 +22,7 @@ namespace Staff_Management.Controllers
             return _context.Users.ToList();
 
         }
-        public ActionResult Index()
+        public ActionResult AdjustSalaries()
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
             {
@@ -44,7 +44,7 @@ namespace Staff_Management.Controllers
             }
             var model = new AssignStaffViewModel
             {
-                AdminList = _context.Users.Where(u => u.Type == 2).ToList(),
+                GroupAdminList = _context.Users.Where(u => u.Type == 2).ToList(),
                 StaffList = _context.Users.Where(u => u.Type == 3).ToList(),
 
             };

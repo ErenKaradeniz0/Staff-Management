@@ -70,16 +70,16 @@
                     <td>@task.Title</td>
                     <td>
                         <a href="@Url.Action("TaskDetails", "Staff", new { taskId = task.TaskId })" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i> Görevi Görüntüle
+                            <i class="fas fa-eye"></i> View Task
                         </a>
-                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
+                        <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline-block;">
                             <input type="hidden" name="taskId" value="@task.TaskId" />
                             <button type="submit" class="btn btn-success btn-sm">
-                                <i class="fas fa-check"></i> Görev Tamamlandı
+                                <i class="fas fa-check"></i> Task completed
                             </button>
                         </form>
                         <a href="@Url.Action("ReportIssue", "Staff", new { taskId = task.TaskId })" class="btn btn-warning btn-sm">
-                            <i class="fas fa-exclamation"></i> Sorun Bildir
+                            <i class="fas fa-exclamation"></i> Report Issue
                         </a>
                     </td>
                 </tr>

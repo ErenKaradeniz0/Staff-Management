@@ -1,8 +1,65 @@
-﻿
+﻿@model Staff_Management.Models.Users
 @{
     ViewBag.Title = "ProfilePage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ProfilePage</h2>
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-header">
+            <h2>Update Profile</h2>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("ProfilePage", "Profile", FormMethod.Post, new { @class = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.UserId)
 
+                <div class="form-group mt-2">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter your name" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group mt-2">
+                    @Html.LabelFor(model => model.Surname)
+                    @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", placeholder = "Enter your surname" })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group mt-2">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "Enter your title", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mt-2">
+                    @Html.LabelFor(model => model.Salary)
+                    @Html.TextBoxFor(model => model.Salary, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+                </div>
+                @Html.HiddenFor(model => model.Type) <!-- Hidden type field -->
+                <div class="mt-4 d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    @{
+                        string homeUrl = "";
+                        switch (Model.Type)
+                        {
+                            case 3:
+                                homeUrl = Url.Action("Index", "Staff");
+                                break;
+                            case 2:
+                                homeUrl = Url.Action("Index", "GroupAdmin");
+                                break;
+                            case 1:
+                                homeUrl = Url.Action("Index", "SystemAdmin");
+                                break;
+                            default:
+
+                                break;
+                        }
+                    }
+                    <a href="@homeUrl" class="btn btn-secondary">Home Page</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

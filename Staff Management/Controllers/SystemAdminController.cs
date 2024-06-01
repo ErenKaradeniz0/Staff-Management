@@ -110,12 +110,12 @@ namespace Staff_Management.Controllers
                     // Save changes to the database
                     _context.SaveChanges();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("AdjustSalaries");
                 }
             }
 
             // If model state is not valid or user is not found, redirect to index
-            return RedirectToAction("Index");
+            return RedirectToAction("AdjustSalaries");
         }
         [HttpPost]
         public ActionResult AddUser(Users model)
@@ -126,9 +126,9 @@ namespace Staff_Management.Controllers
                 _context.Users.Add(model);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index", "SystemAdmin"); // Redirect to the home page, change as needed
+                return RedirectToAction("AdjustSalaries", "SystemAdmin"); // Redirect to the home page, change as needed
             }
-            return RedirectToAction("Index", "SystemAdmin");
+            return RedirectToAction("AdjustSalaries", "SystemAdmin");
         }
 
         [HttpPost]

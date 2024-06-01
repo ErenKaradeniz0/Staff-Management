@@ -49,7 +49,7 @@ namespace Staff_Management.Controllers
                         };
 
             // Convert the query result to a list
-            List<GroupAdminViewModel> TaskList = query.ToList();
+            List<GroupAdminViewModel> ListGroupStaff = query.ToList();
 
             var query2 = from assignment in _context.Assignments
                          join user in _context.Users on assignment.StaffId equals user.UserId
@@ -67,7 +67,7 @@ namespace Staff_Management.Controllers
 
 
 
-            List<GroupAdminViewModel> ListGroupStaff = query2.ToList();
+            List<GroupAdminViewModel> TaskList = query2.ToList();
             GroupAdminViewModel model = new GroupAdminViewModel
             {
                 ListGroupStaff = ListGroupStaff,

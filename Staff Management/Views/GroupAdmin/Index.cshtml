@@ -15,14 +15,15 @@
             @ViewBag.ErrorMessage
         </div>
     }
-    <div class="card">
+    <div id="addTaskForm" class="card" style="display:none;">
         <div class="card-body">
             <h2>Add New Task</h2>
-            <form id="addTaskForm" style="display:none;">
+            @using (Html.BeginForm("AddTask", "GroupAdmin", FormMethod.Post))
+            {
                 <!-- Task Title -->
                 <div class="form-group">
                     <label for="taskTitle"><strong>Task Title</strong></label>
-                    <input type="text" class="form-control" id="taskTitle" required>
+                    <input type="text" class="form-control" id="taskTitle" name="Title" required>
                     <div class="invalid-feedback">Please provide a task title.</div>
                 </div>
                 <!-- Assigned Worker -->
@@ -44,23 +45,23 @@
                     </select>
                     <div class="invalid-feedback">Please provide the assigned worker.</div>
                 </div>
-                <!-- Comments -->
+                <!-- Comment -->
                 <div class="form-group">
                     <label for="taskComments"><strong>Comments</strong></label>
-                    <textarea class="form-control" id="taskComments" rows="3" required></textarea>
+                    <textarea class="form-control" id="taskComments" name="Comment" rows="3" required></textarea>
                     <div class="invalid-feedback">Please provide some comments.</div>
                 </div>
                 <!-- Contents -->
                 <div class="form-group">
                     <label for="taskContents"><strong>Contents</strong></label>
-                    <textarea class="form-control" id="taskContents" rows="5" required></textarea>
+                    <textarea class="form-control" id="taskContents" name="Contents" rows="5" required></textarea>
                     <div class="invalid-feedback">Please provide some contents.</div>
                 </div>
                 <!-- Hidden field for status -->
-                <input type="hidden" id="taskStatus" value="1">
+                <input type="hidden" id="Status" name="Status" value="1">
                 <button type="submit" class="btn btn-primary mt-2" id="saveTaskButton">Add Task</button>
                 <button type="button" class="btn btn-danger mt-2" id="cancelTaskButton">Cancel</button>
-            </form>
+            }
         </div>
     </div>
 
@@ -152,27 +153,6 @@
 
         document.getElementById('cancelTaskButton').addEventListener('click', function () {
             document.getElementById('addTaskForm').style.display = 'none';
-        });
-
-        document.getElementById('addTaskForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            var isValid = true;
-
-            ['taskTitle', 'taskWorker', 'taskComments', 'taskContents'].forEach(function (id) {
-                var element = document.getElementById(id);
-                if (!element.value) {
-                    element.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    element.classList.remove('is-invalid');
-                }
-            });
-
-            if (isValid) {
-                alert('Task added successfully!');
-                this.reset();
-                document.getElementById('addTaskForm').style.display = 'none';
-            }
         });
 
     </script>

@@ -18,52 +18,89 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var groupAdmin in Model.GroupAdminList )
+                @foreach (var groupAdmin in Model.GroupAdminList)
                 {
                     <tr>
                         <td>@groupAdmin.Name @groupAdmin.Surname</td>
                         <td>
-                            <button class="btn btn-info float-right" onclick="toggleStaffList('@groupAdmin.UserId', '@groupAdmin.Name')">Assign Staff</button>
+                            <button class="btn btn-info float-right" onclick="toggleStaffList('@groupAdmin.UserId', '@groupAdmin.Name')">Assign Staff to Admin</button>
+                            <div id="staffList-@groupAdmin.UserId" class="staff-list d-none">
+                                <h3>Assign Staff to Admin <span class="adminName" data-admin-id="@groupAdmin.UserId">@groupAdmin.Name</span></h3>
+                                <ul id="staffUl-@groupAdmin.UserId" class="list-group">
+                                    @{string? checkedStatus;
+                                        foreach (var staff in Model.StaffList)
+                                        {
+
+                                            using (Html.BeginForm("AssignStaff", "SystemAdmin", FormMethod.Post, new { id = $"form_{staff.UserId}_{groupAdmin.UserId}" }))
+                                            {
+                                                bool isChecked = IsStaffIdAssignedtoGroupAdmin(staff.UserId, groupAdmin.UserId);
+                                                @Html.Hidden("staffId", staff.UserId)
+                                                @Html.Hidden("adminId", groupAdmin.UserId)
+                                                @Html.Hidden("isChecked", isChecked)
+                                                if (IsStaffIdAssignedtoGroupAdmin(staff.UserId, groupAdmin.UserId))
+                                                {
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="form-check-input" id="checkbox_@staff.UserId" onchange="submitForm('@staff.UserId', '@groupAdmin.UserId')" checked>
+                                                        <label for="checkbox_@staff.UserId">@staff.Name</label>
+                                                    </li>
+
+                                                }
+                                                else if (!IsStaffIdAssigned(staff.UserId))
+                                                {
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="form-check-input" id="checkbox_@staff.UserId" onchange="submitForm('@staff.UserId', '@groupAdmin.UserId')">
+                                                        <label for="checkbox_@staff.UserId">@staff.Name</label>
+                                                    </li>
+
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
-    <div id="staffList" class="d-none">
-        <h3>Assign Staff to Admin <span id="adminName" data-admin-id=""></span></h3>
-        <ul id="staffUl" class="list-group">
-            @foreach (var staff in Model.StaffList)
-            {
-                <li class="list-group-item">
-                    <input type="checkbox" class="form-check-input" onclick="assignStaff(this, '@staff.Name')"> @staff.Name
-                </li>
-            }
-        </ul>
-        <div id="assignedStaff" class="mt-4">
-            <h3>Staff working for Admin <span id="currentAdminName"></span></h3>
-            <ul id="assignedStaffUl" class="list-group">
-                <!-- Assigned staff members will be listed here -->
-            </ul>
-        </div>
-    </div>
 </div>
 
+@functions {
+    // Sample method to check if staff ID is assigned to a specific admin
+    bool IsStaffIdAssigned(int staffId)
+    {
+        var assignment = Model.AssingmentsList.FirstOrDefault(a => a.StaffId == staffId);
+
+        return assignment != null && assignment.GroupAdminId != null;
+    }
+    bool IsStaffIdAssignedtoGroupAdmin(int staffId, int adminId)
+    {
+        // Fetch assigned staff IDs for the specific admin from the model
+        var assignedStaffIds = Model.AssingmentsList
+            .Where(a => a.StaffId == staffId && a.GroupAdminId == adminId)
+            .Select(a => a.StaffId)
+            .ToList();
+        return assignedStaffIds.Contains(staffId);
+    }
+
+}
+
 <script>
-    const assignedStaff = {};
+    function submitForm(staffId, adminId) {
+        var formId = 'form_' + staffId + '_' + adminId;
+        document.getElementById(formId).submit();
+    }
 
     function toggleStaffList(adminId, adminName) {
-        const staffList = document.getElementById('staffList');
-        const adminNameElement = document.getElementById('adminName');
-        const currentAdminNameElement = document.getElementById('currentAdminName');
+        const staffList = document.getElementById(`staffList-${adminId}`);
+        const adminNameElement = staffList.querySelector('.adminName');
+        const currentAdminNameElement = staffList.querySelector('.currentAdminName');
 
-        if (staffList.classList.contains('d-none') || adminNameElement.getAttribute('data-admin-id') !== adminId) {
+        if (staffList.classList.contains('d-none')) {
             // Show the staff list
             staffList.classList.remove('d-none');
-            // Update the admin name and data-admin-id attribute
-            adminNameElement.innerText = adminName;
-            adminNameElement.setAttribute('data-admin-id', adminId);
             // Update the current admin name
             currentAdminNameElement.innerText = adminName;
 
@@ -80,9 +117,7 @@
         }
     }
 
-    function assignStaff(checkbox, staffName) {
-        const adminId = document.getElementById('adminName').getAttribute('data-admin-id');
-
+    function assignStaff(checkbox, staffName, adminId) {
         if (!assignedStaff[adminId]) {
             assignedStaff[adminId] = [];
         }
@@ -98,9 +133,8 @@
         updateAssignedStaffList(adminId);
     }
 
-
     function updateAssignedStaffList(adminId) {
-        const assignedStaffUl = document.getElementById('assignedStaffUl');
+        const assignedStaffUl = document.getElementById(`assignedStaffUl-${adminId}`);
         assignedStaffUl.innerHTML = '';
 
         assignedStaff[adminId].forEach(staffName => {

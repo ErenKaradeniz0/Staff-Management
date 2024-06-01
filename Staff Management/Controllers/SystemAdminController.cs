@@ -35,6 +35,7 @@ namespace Staff_Management.Controllers
             }
             return View(ListUser());
         }
+        [HttpGet]
         public ActionResult AssignStaff()
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
@@ -46,9 +47,38 @@ namespace Staff_Management.Controllers
             {
                 GroupAdminList = _context.Users.Where(u => u.Type == 2).ToList(),
                 StaffList = _context.Users.Where(u => u.Type == 3).ToList(),
-
+                AssingmentsList = _context.Assignments.ToList(),
             };
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult AssignStaff(int staffId, int? adminId,bool isChecked)
+        {
+            var assignment = _context.Assignments.FirstOrDefault(a => a.StaffId == staffId);
+            if(isChecked) {
+                adminId = null;
+            }
+            if (assignment != null)
+            {
+                assignment.GroupAdminId = adminId;
+            }
+            else
+            {
+                // Create a new assignment
+                assignment = new Assignments
+                {
+                    StaffId = staffId,
+                    GroupAdminId = adminId
+                    // Set other properties if needed
+                };
+
+                // Add the new assignment to the context
+                _context.Assignments.Add(assignment);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("AssignStaff", "SystemAdmin"); // Redirect to the home page as an example
         }
         public ActionResult CreateEditUser()
         {
@@ -101,8 +131,6 @@ namespace Staff_Management.Controllers
             return RedirectToAction("Index", "SystemAdmin");
         }
 
-
-
         [HttpPost]
         public ActionResult UpdateSalary(int userId, double newSalary)
         {
@@ -117,7 +145,7 @@ namespace Staff_Management.Controllers
             {
                 TempData["ErrorMessage"] = "User not found";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("AdjustSalaries");
         }
     }
 }

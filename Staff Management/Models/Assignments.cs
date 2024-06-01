@@ -10,7 +10,7 @@ namespace Staff_Management.Models
     {
         [Key]
         public int AssignId { get; set; }
-        public int GroupAdminId { get; set; }
+        public int? GroupAdminId { get; set; }
         public int StaffId { get; set; }
     }
 }

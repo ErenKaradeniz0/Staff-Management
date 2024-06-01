@@ -82,16 +82,7 @@ namespace Staff_Management.Controllers
             // Redirect to the TaskDetails action with the ID of the updated task
             return RedirectToAction("Index");
         }
-        public ActionResult ProfilePage()
-        {
-            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 3)
-            {
-                TempData["LoginMessage"] = "User not found. You have been redirected.";
-                return RedirectToAction("Login", "Account");
-            }
-
-            return View();
-        }
+       
 
         [HttpPost]
         public ActionResult UpdateTaskStatus(int taskId)

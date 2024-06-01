@@ -23,7 +23,7 @@ namespace Staff_Management.Controllers
         }
 
         // GET: 
-        public ActionResult Index()
+        public ActionResult ListTasks()
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 2)
             {
@@ -87,11 +87,11 @@ namespace Staff_Management.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index", "GroupAdmin");
+            return RedirectToAction("ListTasks", "GroupAdmin");
         }
 
         [HttpGet]
-        public ActionResult Tasks(int? taskId)
+        public ActionResult Task(int? taskId)
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 2)
             {
@@ -101,7 +101,7 @@ namespace Staff_Management.Controllers
             else if (taskId == null)
             {
                 TempData["ErrorMessage"] = "Task not found. You have been redirected.";
-                return RedirectToAction("Index", "GroupAdmin");
+                return RedirectToAction("ListTasks", "GroupAdmin");
             }
             var existingTask = _context.Tasks.Find(taskId);
             var existingUser = _context.Users.Find(existingTask.StaffId);
@@ -151,12 +151,12 @@ namespace Staff_Management.Controllers
         }
 
         [HttpPost]
-        public ActionResult Tasks(GroupAdminViewModel groupAdminTaskModel)
+        public ActionResult Task(GroupAdminViewModel groupAdminTaskModel)
         {
             var existingTask = _context.Tasks.Find(groupAdminTaskModel.TaskId);
             if (existingTask == null)
             {
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction("ListTasks", "Error");
             }
             existingTask.Title = groupAdminTaskModel.Title;
             existingTask.Contents = groupAdminTaskModel.Contents;
@@ -172,7 +172,7 @@ namespace Staff_Management.Controllers
                 return View("ConcurrencyError", ex);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ListTasks");
         }
 
 
@@ -193,7 +193,7 @@ namespace Staff_Management.Controllers
                 _context.Tasks.Add(newTask);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index"); // Redirect to a relevant action after saving
+                return RedirectToAction("ListTasks"); // Redirect to a relevant action after saving
             }
 
             // If model state is not valid, return to the form with the current model to show validation errors

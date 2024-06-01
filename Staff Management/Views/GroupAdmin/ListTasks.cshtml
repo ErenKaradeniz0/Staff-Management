@@ -128,7 +128,7 @@
                                         break;
                                 }
                             }
-                            <a class="btn @CssClass btn-sm" href="@Url.Action("Tasks", new { taskId = task.TaskId })">
+                            <a class="btn @CssClass btn-sm" href="@Url.Action("Task", new { taskId = task.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
                             <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">

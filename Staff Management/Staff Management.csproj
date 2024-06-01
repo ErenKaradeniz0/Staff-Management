@@ -194,11 +194,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Staff\Index.cshtml" />
-    <Content Include="Views\GroupAdmin\Index.cshtml" />
+    <Content Include="Views\GroupAdmin\ListTasks.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Staff\TaskDetails.cshtml" />
     <Content Include="Views\Staff\ReportIssue.cshtml" />
-    <Content Include="Views\GroupAdmin\Tasks.cshtml" />
+    <Content Include="Views\GroupAdmin\Task.cshtml" />
     <Content Include="Views\SystemAdmin\AdjustSalaries.cshtml" />
     <Content Include="Views\SystemAdmin\AssignStaff.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />

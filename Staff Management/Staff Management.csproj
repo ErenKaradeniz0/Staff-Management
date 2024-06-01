@@ -120,6 +120,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GroupAdminController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +204,7 @@
     <Content Include="Views\SystemAdmin\AssignStaff.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\SystemAdmin\CreateEditUser.cshtml" />
+    <Content Include="Views\Profile\ProfilePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

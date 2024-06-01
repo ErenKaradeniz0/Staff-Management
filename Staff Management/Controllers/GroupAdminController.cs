@@ -158,7 +158,7 @@ namespace Staff_Management.Controllers
             {
                 return RedirectToAction("Index", "Error");
             }
-
+            existingTask.Title = groupAdminTaskModel.Title;
             existingTask.Contents = groupAdminTaskModel.Contents;
             existingTask.Comment = groupAdminTaskModel.Comment;
             existingTask.StaffId = groupAdminTaskModel.StaffId;
@@ -176,6 +176,31 @@ namespace Staff_Management.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult AddTask(Tasks model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newTask = new Tasks
+                {
+                    Title = model.Title,
+                    Contents = model.Contents,
+                    Comment = model.Comment,
+                    Status = model.Status,
+                    StaffId = model.StaffId
+                };
 
+                _context.Tasks.Add(newTask);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index"); // Redirect to a relevant action after saving
+            }
+
+            // If model state is not valid, return to the form with the current model to show validation errors
+            //model.ListGroupStaff = _context.Staff.ToList(); // Assuming you need to reload the staff list
+            return View(model);
+        }
     }
+    
+
 }

@@ -9,10 +9,14 @@
     @using (Html.BeginForm("Tasks", "GroupAdmin", FormMethod.Post))
     {
         @Html.HiddenFor(model => model.TaskId)
-        @Html.HiddenFor(model => model.Title)
         @Html.HiddenFor(model => model.Status)
         <div class="form-group">
-            <label for="taskContent"><strong>Content:</strong></label>
+            <label for="taskTitle"><strong>Task Title</strong></label>
+            <input type="text" class="form-control" id="taskTitle" name="Title" required value="@Model.Title">
+            <div class="invalid-feedback">Please provide a task title.</div>
+        </div>
+        <div class="form-group">
+            <label for="taskContent"><strong>Contents:</strong></label>
             <textarea id="taskContent" name="Contents" class="form-control" rows="4">@Model.Contents</textarea>
         </div>
         <div class="form-group">

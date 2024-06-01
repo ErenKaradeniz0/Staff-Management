@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -24,6 +25,16 @@ namespace Staff_Management.Controllers
         // GET: 
         public ActionResult Index()
         {
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 2)
+            {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
+                return RedirectToAction("Login", "Account");
+            }
+            else if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            }
+
             int GroupAdminId = Convert.ToInt32(Session["UserId"]);
             var GroupAdmin = _context.Users.Find(GroupAdminId);
 
@@ -80,10 +91,19 @@ namespace Staff_Management.Controllers
         }
 
         [HttpGet]
-        public ActionResult Tasks(int viewTaskId)
+        public ActionResult Tasks(int? taskId)
         {
-
-            var existingTask = _context.Tasks.Find(viewTaskId);
+            if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 2)
+            {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
+                return RedirectToAction("Login", "Account");
+            }
+            else if (taskId == null)
+            {
+                TempData["ErrorMessage"] = "Task not found. You have been redirected.";
+                return RedirectToAction("Index", "GroupAdmin");
+            }
+            var existingTask = _context.Tasks.Find(taskId);
             var existingUser = _context.Users.Find(existingTask.StaffId);
 
 
@@ -103,7 +123,7 @@ namespace Staff_Management.Controllers
             List<GroupAdminViewModel> ListGroupStaff = query.ToList();
 
             var query2 = from task in _context.Tasks
-                         where task.TaskId == viewTaskId // Filter condition
+                         where task.TaskId == taskId // Filter condition
                          select new GroupAdminViewModel
                          {
                              StaffId = task.StaffId,
@@ -117,7 +137,7 @@ namespace Staff_Management.Controllers
             {
                 ListGroupStaff = ListGroupStaff,
                 ListTasks = TaskList,
-                TaskId = viewTaskId,
+                TaskId = (int)taskId,
                 Title = existingTask.Title,
                 Status = existingTask.Status,
                 StaffId = existingTask.StaffId,

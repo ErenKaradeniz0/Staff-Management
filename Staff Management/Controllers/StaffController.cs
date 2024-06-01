@@ -23,7 +23,7 @@ namespace Staff_Management.Controllers
                 TempData["LoginMessage"] = "User not found. You have been redirected.";
                 return RedirectToAction("Login", "Account");
             }
-            if (TempData["ErrorMessage"] != null)
+            else if (TempData["ErrorMessage"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ErrorMessage"];
             }

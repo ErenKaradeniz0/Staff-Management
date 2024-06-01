@@ -26,7 +26,12 @@ namespace Staff_Management.Controllers
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
             {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
                 return RedirectToAction("Login", "Account");
+            }
+            else if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
             }
             return View(ListUser());
         }
@@ -34,6 +39,7 @@ namespace Staff_Management.Controllers
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
             {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
                 return RedirectToAction("Login", "Account");
             }
             var model = new AssignStaffViewModel
@@ -48,6 +54,7 @@ namespace Staff_Management.Controllers
         {
             if (Convert.ToInt32(Session["UserId"]) == 0 || Convert.ToInt32(Session["UserType"]) != 1)
             {
+                TempData["LoginMessage"] = "User not found. You have been redirected.";
                 return RedirectToAction("Login", "Account");
             }
             return View(ListUser());

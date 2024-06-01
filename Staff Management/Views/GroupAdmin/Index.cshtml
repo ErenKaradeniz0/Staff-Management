@@ -9,6 +9,12 @@
     <button id="modalButton" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTaskModal">
         <i class="fas fa-plus"></i> Add Task
     </button>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-warning font-weight-bold mt-2" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
     <table class="table table-striped">
         <thead>
             <tr>
@@ -71,7 +77,7 @@
                                         break;
                                 }
                             }
-                            <a class="btn @CssClass btn-sm" href="@Url.Action("Tasks", new { viewTaskId = task.TaskId })">
+                            <a class="btn @CssClass btn-sm" href="@Url.Action("Tasks", new { taskId = task.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
                             <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">

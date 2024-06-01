@@ -70,5 +70,11 @@ public class AccountController : Controller
             return View(model);
         }
     }
+    public ActionResult Logout()
+    {
+        Session.Clear(); // Clear all session data
+        Session.Abandon(); // End the session
+        return RedirectToAction("Login", "Account");
+    }
 
 }

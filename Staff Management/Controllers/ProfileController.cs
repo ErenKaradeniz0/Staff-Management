@@ -59,23 +59,27 @@ namespace Staff_Management.Controllers
 
                     _context.SaveChanges();
                     string action = "";
+                    string controller = "";
 
                     switch (user.Type)
                     {
                         case 3:
-                            action = "Staff";
+                            controller = "Staff";
+                            action = "Index";
                             break;
                         case 2:
-                            action = "GroupAdmin";
+                            controller = "GroupAdmin";
+                            action = "ListTasks";
                             break;
                         case 1:
-                            action = "SystemAdmin";
+                            controller = "SystemAdmin";
+                            action = "AdjustSalaries";
                             break;
                         default:
 
                             break;
                     }
-                    return RedirectToAction("Index", action); // Redirect to home or another page
+                    return RedirectToAction(action, controller);
 
                 }
                 ModelState.AddModelError("", "User not found");

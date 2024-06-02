@@ -65,7 +65,18 @@
         </div>
     </div>
 
-
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success font-weight-bold mt-2" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    else if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger font-weight-bold mt-2" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <table class="table table-striped">
         <thead>
             <tr>
@@ -131,14 +142,21 @@
                             <a class="btn @CssClass btn-sm" href="@Url.Action("Task", new { taskId = task.TaskId })">
                                 <i class="fas fa-eye"></i> View Task
                             </a>
-                            <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">
-                                <input type="hidden" name="taskId" value="@task.TaskId" />
-                                @if (task.Status  != 2)
-                                {
+                            @if (task.Status != 2)
+                            {
+                                <form action="@Url.Action("UpdateTaskStatus", "GroupAdmin")" method="post" style="display:inline;">
+                                    <input type="hidden" name="taskId" value="@task.TaskId" />
+
                                     <button type="submit" class="btn btn-success btn-sm">
                                         <i class="fas fa-check"></i> Complete
                                     </button>
-                                }
+                                </form>
+                            }
+                            <form action="@Url.Action("DeleteTask", "GroupAdmin")" method="post" style="display:inline;">
+                                <input type="hidden" name="taskId" value="@task.TaskId" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </form>
                         </div>
                     </td>

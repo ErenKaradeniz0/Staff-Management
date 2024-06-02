@@ -200,6 +200,24 @@ namespace Staff_Management.Controllers
             //model.ListGroupStaff = _context.Staff.ToList(); // Assuming you need to reload the staff list
             return View(model);
         }
+        [HttpPost]
+        public ActionResult DeleteTask(int taskId)
+        {
+            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
+
+            if (task != null)
+            {
+                _context.Tasks.Remove(task);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Task deleted successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Task not found.";
+            }
+
+            return RedirectToAction("ListTasks"); // Adjust this to the appropriate action/view
+        }
     }
     
 

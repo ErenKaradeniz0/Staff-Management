@@ -70,17 +70,17 @@
                     <td>@task.Title</td>
                     <td>
                         <a href="@Url.Action("TaskDetails", "Staff", new { taskId = task.TaskId })" class="btn btn-sm">
-                            <i class="fas fa-eye"></i> Görevi Görüntüle
+                            <i class="fas fa-eye"></i> View Task
                         </a>
                         <form action="@Url.Action("UpdateTaskStatus", "Staff")" method="post" style="display:inline;">
                             <input type="hidden" name="taskId" value="@task.TaskId" />
                             @if (task.Status != 2)
                             {
                                 <button type="submit" class="btn btn-success btn-sm">
-                                    <i class="fas fa-check"></i> Görev Tamamlandı
+                                    <i class="fas fa-check"></i> Task Completed
                                 </button>
                                 <a href="@Url.Action("ReportIssue", "Staff", new { taskId = task.TaskId })" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-exclamation"></i> Sorun Bildir
+                                    <i class="fas fa-exclamation"></i> Report Issues
                                 </a>
                             }
                         </form>

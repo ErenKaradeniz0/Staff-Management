@@ -44,13 +44,10 @@ public class AccountController : Controller
                 switch (user.Type)
                 {
                     case 1: // System Admin
-                            // Implement authentication and set user session
                         return RedirectToAction("AdjustSalaries", "SystemAdmin");
                     case 2: // Group Admin
-                            // Implement authentication and set user session
                         return RedirectToAction("ListTasks", "GroupAdmin");
                     case 3: // Staff
-                            // Implement authentication and set user session
                         return RedirectToAction("Index", "Staff");
                     default:
                         ModelState.AddModelError("", "Invalid user type.");

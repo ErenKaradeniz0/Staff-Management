@@ -216,7 +216,7 @@ namespace Staff_Management.Controllers
                 TempData["ErrorMessage"] = "Task not found.";
             }
 
-            return RedirectToAction("ListTasks"); // Adjust this to the appropriate action/view
+            return RedirectToAction("ListTasks");
         }
     }
     

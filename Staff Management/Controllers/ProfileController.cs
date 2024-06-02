@@ -54,9 +54,9 @@ namespace Staff_Management.Controllers
                 {
                     user.Name = model.Name;
                     user.Surname = model.Surname;
-                    user.Title = model.Title;
-                    user.Type = model.Type;
-
+                    user.Email = model.Email;
+                    user.Password = AccountController.PasswordEncrypt(model.Password);
+                    
                     _context.SaveChanges();
                     string action = "";
                     string controller = "";

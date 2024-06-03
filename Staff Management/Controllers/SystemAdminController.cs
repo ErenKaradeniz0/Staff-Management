@@ -64,21 +64,16 @@ namespace Staff_Management.Controllers
             }
             else
             {
-                // Create a new assignment
                 assignment = new Assignments
                 {
                     StaffId = staffId,
                     GroupAdminId = adminId
-                    // Set other properties if needed
                 };
 
-                // Add the new assignment to the context
                 _context.Assignments.Add(assignment);
             }
-
             _context.SaveChanges();
-
-            return RedirectToAction("AssignStaff", "SystemAdmin"); // Redirect to the home page as an example
+            return RedirectToAction("AssignStaff", "SystemAdmin");
         }
         public ActionResult CreateEditUser()
         {
@@ -96,7 +91,6 @@ namespace Staff_Management.Controllers
 
             if (ModelState.IsValid)
             {
-                // Retrieve the user from the database
                 var user = _context.Users.FirstOrDefault(u => u.UserId == model.UserId);
 
                 if (user != null)
@@ -107,14 +101,12 @@ namespace Staff_Management.Controllers
                     user.Title = model.Title;
                     user.Type = model.Type;
 
-                    // Save changes to the database
                     _context.SaveChanges();
 
                     return RedirectToAction("AdjustSalaries");
                 }
             }
 
-            // If model state is not valid or user is not found, redirect to index
             return RedirectToAction("AdjustSalaries");
         }
         [HttpPost]
@@ -126,7 +118,7 @@ namespace Staff_Management.Controllers
                 _context.Users.Add(model);
                 _context.SaveChanges();
 
-                return RedirectToAction("AdjustSalaries", "SystemAdmin"); // Redirect to the home page, change as needed
+                return RedirectToAction("AdjustSalaries", "SystemAdmin");
             }
             return RedirectToAction("AdjustSalaries", "SystemAdmin");
         }

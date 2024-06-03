@@ -68,7 +68,6 @@
 </div>
 
 @functions {
-    // Sample method to check if staff ID is assigned to a specific admin
     bool IsStaffIdAssigned(int staffId)
     {
         var assignment = Model.AssingmentsList.FirstOrDefault(a => a.StaffId == staffId);
@@ -99,49 +98,17 @@
         const currentAdminNameElement = staffList.querySelector('.currentAdminName');
 
         if (staffList.classList.contains('d-none')) {
-            // Show the staff list
             staffList.classList.remove('d-none');
-            // Update the current admin name
             currentAdminNameElement.innerText = adminName;
 
-            // Initialize assigned staff for this admin if not already
             if (!assignedStaff[adminId]) {
                 assignedStaff[adminId] = [];
             }
 
-            // Update the assigned staff list
             updateAssignedStaffList(adminId);
         } else {
             // Hide the staff list
             staffList.classList.add('d-none');
         }
-    }
-
-    function assignStaff(checkbox, staffName, adminId) {
-        if (!assignedStaff[adminId]) {
-            assignedStaff[adminId] = [];
-        }
-
-        if (checkbox.checked) {
-            assignedStaff[adminId].push(staffName);
-        } else {
-            const index = assignedStaff[adminId].indexOf(staffName);
-            if (index !== -1) {
-                assignedStaff[adminId].splice(index, 1);
-            }
-        }
-        updateAssignedStaffList(adminId);
-    }
-
-    function updateAssignedStaffList(adminId) {
-        const assignedStaffUl = document.getElementById(`assignedStaffUl-${adminId}`);
-        assignedStaffUl.innerHTML = '';
-
-        assignedStaff[adminId].forEach(staffName => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.innerText = staffName;
-            assignedStaffUl.appendChild(li);
-        });
     }
 </script>

@@ -193,11 +193,9 @@ namespace Staff_Management.Controllers
                 _context.Tasks.Add(newTask);
                 _context.SaveChanges();
 
-                return RedirectToAction("ListTasks"); // Redirect to a relevant action after saving
+                return RedirectToAction("ListTasks");
             }
 
-            // If model state is not valid, return to the form with the current model to show validation errors
-            //model.ListGroupStaff = _context.Staff.ToList(); // Assuming you need to reload the staff list
             return View(model);
         }
         [HttpPost]

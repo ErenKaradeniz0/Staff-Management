@@ -5,7 +5,7 @@
 }
 
 <div class="container mt-5">
-    <h1 id="taskTitle">Görev Detayı</h1>
+    <h1 id="taskTitle">Task Details</h1>
     <h5 id="taskStatus">Status</h5>
     <br />
     @using (Html.BeginForm("TaskDetails", "Staff", FormMethod.Post))
@@ -16,17 +16,17 @@
         @Html.HiddenFor(model => model.StaffId)
         @Html.HiddenFor(model => model.Contents)
         <div class="form-group">
-            <label for="taskContent">Content</label>
+            <label for="taskContent"><strong>Content</strong></label>
             <textarea class="form-control" id="taskContent" rows="5" readonly style="resize: none;">@Model.Contents</textarea>
         </div>
 
         <div class="form-group mt-3">
-            <label for="taskComment">Comment</label>
+            <label for="taskComment"><strong>Comment</strong></label>
             <textarea class="form-control" id="taskComment" name="Comment" rows="5" style="resize: none;">@Model.Comment</textarea>
         </div>
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary me-lg-2">Değişiklikleri Kaydet</button>
-            <a href="@Url.Action("Index", "Staff")" class="btn btn-secondary">Ana Sayfa</a>
+            <button type="submit" class="btn btn-primary me-lg-2">Save</button>
+            <a href="@Url.Action("Index", "Staff")" class="btn btn-secondary">Home Page</a>
         </div>
     }
 </div>

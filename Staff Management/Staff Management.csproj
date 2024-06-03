@@ -154,6 +154,8 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\all.min.css" />
+    <Content Include="Content\Forgot_password.svg" />
+    <Content Include="Content\login.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
@@ -205,6 +207,7 @@
     <Content Include="Views\SystemAdmin\CreateEditUser.cshtml" />
     <Content Include="Views\Profile\ProfilePage.cshtml" />
     <Content Include="Views\SystemAdmin\SystemAdminNav.cshtml" />
+    <Content Include="Views\Account\Forgot_Password.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

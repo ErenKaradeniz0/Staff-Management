@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Staff_Management.Models; // Adjust namespace as necessary
@@ -40,7 +41,7 @@ public class AccountController : Controller
             {
                 Session["UserId"] = user.UserId;
                 Session["UserType"] = user.Type;
-                
+
                 // Assuming user type is stored as an integer
                 switch (user.Type)
                 {
@@ -117,6 +118,81 @@ public class AccountController : Controller
         string newPassword = crypto + cryptoMirror;
         return newPassword;
     }
+    private string GenerateRandomPassword()
+    {
+        Random random = new Random();
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return new string(Enumerable.Repeat(chars, 8).Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+    private bool SendPasswordResetEmail(string email, string newPassword)
+    {
 
+        try
+        {
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("staffmanagement.eren@gmail.com");
+            mail.To.Add(email);
+            mail.Subject = "Password Reset";
+
+            var client = _context.Users.FirstOrDefault(u => u.Email == email);
+            mail.Body = "Hello " + client.Name + " " + client.Surname + ", Your new password: " + newPassword;
+         
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.Port = 587;
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new System.Net.NetworkCredential("staffmanagement.eren@gmail.com", "eemcpyvzyadshliu");
+
+
+            smtpClient.Send(mail);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return false;
+        }
+    }
+
+    [HttpGet]
+    public ActionResult Forgot_Password()
+    {
+
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Forgot_Password(string email)
+    {
+        string newPassword = GenerateRandomPassword();
+        string encryptedPassword = PasswordEncrypt(newPassword);
+
+
+        var client = _context.Users.FirstOrDefault(u => u.Email == email);
+
+        if (client != null)
+        {
+            if (SendPasswordResetEmail(email, newPassword))
+            {
+                client.Password = encryptedPassword;
+                _context.SaveChanges();
+                ViewBag.SuccessMessage = "A new password has been sent to your email.";
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Failed to send the new password. Please try again.";
+            }
+        }
+        else
+        {
+            ViewBag.ErrorMessage = "You do not have an account.";
+        }
+
+
+        return View();
+
+    }
 
 }

@@ -52,10 +52,11 @@ namespace Staff_Management.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult AssignStaff(int staffId, int? adminId,bool isChecked)
+        public ActionResult AssignStaff(int staffId, int? adminId, bool isChecked)
         {
             var assignment = _context.Assignments.FirstOrDefault(a => a.StaffId == staffId);
-            if(isChecked) {
+            if (isChecked)
+            {
                 adminId = null;
             }
             if (assignment != null)
@@ -98,16 +99,26 @@ namespace Staff_Management.Controllers
                     // Update user properties
                     user.Name = model.Name;
                     user.Surname = model.Surname;
+                    user.Email = model.Email;
                     user.Title = model.Title;
                     user.Type = model.Type;
+                    user.Salary = model.Salary;
+                    user.Password = AccountController.PasswordEncrypt(model.Password);
+                    try
+                    {
+                        _context.SaveChanges();
+                        TempData["SuccessMessage"] = "User updated successfully";
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while updating the user: " + e.Message;
+                    }
 
-                    _context.SaveChanges();
-
-                    return RedirectToAction("AdjustSalaries");
+                    return RedirectToAction("CreateEditUser");
                 }
             }
 
-            return RedirectToAction("AdjustSalaries");
+            return RedirectToAction("CreateEditUser");
         }
         [HttpPost]
         public ActionResult AddUser(Users model)

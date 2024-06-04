@@ -1,13 +1,29 @@
 ﻿@model IEnumerable<Staff_Management.Models.Users>
-
+@{
+    ViewBag.Title = "Create Edit User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 @Html.Partial("SystemAdminNav")
 <div class="container mt-5">
     <div id="createEditUserContent">
         <h2>Create & Edit User</h2>
         <button class="btn btn-success mt-2 mb-3" onclick="toggleAddUserForm('AddUser')">New</button>
-
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success font-weight-bold mt-2" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        else if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger font-weight-bold mt-2" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <div id="addUserFormContainer" style="display: none;">
-            @using (Html.BeginForm("AddUser", "SystemAdmin", FormMethod.Post, new { id = "userForm" }))
+            <div id="errorContainer"></div>
+
+            @using (Html.BeginForm("AddUser", "SystemAdmin", FormMethod.Post, new { id = "userForm", onsubmit = "return validateForm();" }))
             {
                 @Html.Hidden("UserId", null, new { id = "userId" })
 
@@ -29,6 +45,7 @@
                                 <div class="form-group mt-2">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="Email" required>
+                                    <div id="emailError" style="color: red;"></div>
                                 </div>
                                 <div class="form-group mt-2">
                                     <label for="password">Password</label>
@@ -137,4 +154,29 @@
 
 
     }
+
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password != confirmPassword) {
+            var errorMessage = "Passwords do not match!";
+            var errorContainer = document.getElementById('errorContainer');
+
+            // Clear previous error messages
+            errorContainer.innerHTML = '';
+
+            // Create a new div element for the error message
+            var errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger font-weight-bold mt-2';
+            errorDiv.setAttribute('role', 'alert');
+            errorDiv.textContent = errorMessage;
+
+            // Append the error message to the error container
+            errorContainer.appendChild(errorDiv);
+
+            return false;
+        }
+    }
+
 </script>
